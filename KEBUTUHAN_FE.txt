@@ -2,7 +2,7 @@
 
 1. response Belum, Proses, Sudah diubah jadi Belum Setting, Proses Setting, Sudah Setting/ sudah
 2. getAllEcomm where belum setting disorting by tanggal order. yang terbaru di terakhirkan yang terlama di dahulukan / sudah
-3. minta tambahan struktur data tanggal_order_formatted dan tanggal_input_formatted biar lebih bisa dibaca manusia,
+3. minta tambahan struktur data tanggal_order_formatted dan tanggal_input_formatted biar lebih bisa dibaca manusia, /sudah
 
     [
         {
@@ -36,7 +36,7 @@
         }
     ]
 
-    berlaku di endpoint berikut:
+    berlaku di endpoint berikut: / SUDAH SEMUA
     - https://padvp2v123.jualdecal.com/ecommerce/orderEcomAllByIdAkun/idAkun
     - https://padvp2v123.jualdecal.com/ecommerce/orderEcomAllByBulanIni/idAkun
     - https://padvp2v123.jualdecal.com/ecommerce/orderEcomAllByBulanIniFE/idAkun/tanggal

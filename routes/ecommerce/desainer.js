@@ -25,26 +25,9 @@ function generateRandomString(length) {
 // Operasi CREATE : Rute untuk menambahkan BAHAN CETAK baru verifyToken,
 router.post('/newEcom', async (req, res) => {
     const {
-        id_order_ecom,
-        id_akun,
-        order_time,
-        id_akun_ecom,
-        nama_akun_order,
-        nama_penerima,
-        nomor_order,
-        sku,
-        warna,
-        id_bahan_cetak,
-        id_mesin_cetak,
-        id_laminasi,
-        lebar_bahan,
-        panjang_bahan,
-        qty_order,
-        note,
-        key,
-        time,
-        id_ekspedisi,
-        return_order
+        id_order_ecom, id_akun, order_time, id_akun_ecom, nama_akun_order, nama_penerima,    
+        nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, id_laminasi, lebar_bahan, panjang_bahan, 
+        qty_order, note, key, time,  id_ekspedisi, return_order
     } = req.body;
 
     const currentDate = moment().format('YYYY-MM-DD');
@@ -60,27 +43,9 @@ router.post('/newEcom', async (req, res) => {
             const newNoUrut = maxNoUrut + 1;
 
             await trx('data_order_ecom').insert({
-                id_order_ecom,
-                id_akun,
-                order_time,
-                no_urut: newNoUrut,
-                id_akun_ecom,
-                nama_akun_order,
-                nama_penerima,
-                nomor_order,
-                sku,
-                warna,
-                id_bahan_cetak,
-                id_mesin_cetak,
-                id_laminasi,
-                lebar_bahan,
-                panjang_bahan,
-                qty_order,
-                note,
-                key,
-                time,
-                id_ekspedisi,
-                return_order
+                id_order_ecom, id_akun, order_time, no_urut: newNoUrut, id_akun_ecom,
+                nama_akun_order, nama_penerima, nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, 
+                id_laminasi, lebar_bahan, panjang_bahan, qty_order, note, key, time, id_ekspedisi, return_order
             });
 
             const gen = generateRandomString(10);
@@ -128,8 +93,6 @@ router.get('/orderEcom', (req, res) => {
 
 
 // Operasi READ: Rute untuk Mendapatkan semua data Orderan Ecommerse by id_akun dengan Join untuk mendapatkan data yang sesuai
-
-
 router.get('/orderEcomAllByIdAkun/:idAkun', (req, res) => {
     const id_akun = req.params.idAkun
     // Mengambil data admin dari database
@@ -149,12 +112,13 @@ router.get('/orderEcomAllByIdAkun/:idAkun', (req, res) => {
         .orderBy('time', 'asc')
         .then((data) => {
             
-             // Mengubah format tanggal sebelum mengirim respons JSON
+            //  Mengubah format tanggal sebelum mengirim respons JSON
              const formattedData = data.map((item) => ({
                 ...item,
-                order_time: format(new Date(item.order_time), "dd MMM yyyy HH:mm"),
+                tanggal_order_formatted: format(new Date(item.order_time), "dd MMM yyyy HH:mm"),
+                tanggal_input_formatted: format(new Date(item.time), "dd MMM yyyy HH:mm"),
             }));
-
+            
             res.json(formattedData);
         })
         .catch((error) => {
@@ -224,7 +188,14 @@ router.get('/orderEcomAllByBulanIni/:idAkun', (req, res) => {
         .orderBy('time', 'desc')
         .limit(500)
         .then((data) => {
-            res.json(data);
+             //  Mengubah format tanggal sebelum mengirim respons JSON
+             const formattedData = data.map((item) => ({
+                ...item,
+                tanggal_order_formatted: format(new Date(item.order_time), "dd MMM yyyy HH:mm"),
+                tanggal_input_formatted: format(new Date(item.time), "dd MMM yyyy HH:mm"),
+            }));
+            
+            res.json(formattedData);
         })
         .catch((error) => {
             console.log(error);
@@ -265,8 +236,14 @@ router.get('/orderEcomAllByBulanIniFE/:idAkun/:forTgl', (req, res) => {
         .where('data_order_ecom.id_akun', 'LIKE', id_akun)
         .andWhere('data_order_ecom.order_time', 'LIKE',  fotmatTanggal +'%')
         .orderBy('time', 'asc')
-        .then((data) => {
-            res.json(data);
+        .then((data) => { //  Mengubah format tanggal sebelum mengirim respons JSON
+            const formattedData = data.map((item) => ({
+               ...item,
+               tanggal_order_formatted: format(new Date(item.order_time), "dd MMM yyyy HH:mm"),
+               tanggal_input_formatted: format(new Date(item.time), "dd MMM yyyy HH:mm"),
+           }));
+           
+           res.json(formattedData);
         })
         .catch((error) => {
             console.log(error);
@@ -318,8 +295,15 @@ router.get('/orderEcom/unOkSettingByIdEcom/:idEcom', (req, res) => {
         // .where('data_order_ecom.admin_apv_desainer', 'LIKE', '-')
         .where('data_order_ecom.id_order_ecom', 'LIKE', id_order_ecom)
         .then((data) => {
-
-            res.json(data);
+            
+            //  Mengubah format tanggal sebelum mengirim respons JSON
+            const formattedData = data.map((item) => ({
+               ...item,
+               tanggal_order_formatted: format(new Date(item.order_time), "dd MMM yyyy HH:mm"),
+               tanggal_input_formatted: format(new Date(item.time), "dd MMM yyyy HH:mm"),
+           }));
+           
+           res.json(formattedData);
         })
         .catch((error) => {
             console.log(error);
