@@ -41,7 +41,7 @@ router.put('/settingOk/:idOrder/:idAkun', async (req, res) => {
             .where('id_order', id_Order)            
             .update(updateData);
 
-            res.json({ message: 'Data Berhasil Dirubah' });
+            res.status(200).json({ message: 'Data Berhasil Dirubah' });
 
 
 
@@ -53,7 +53,7 @@ router.put('/settingOk/:idOrder/:idAkun', async (req, res) => {
 });
 
 
-
+// endpoint get AllEcomm where sedang proses by id penyetting by hari ini
 
 
 module.exports = router;

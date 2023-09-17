@@ -42,7 +42,7 @@
     - https://padvp2v123.jualdecal.com/ecommerce/orderEcomAllByBulanIniFE/idAkun/tanggal
     - https://padvp2v123.jualdecal.com/ecommerce/orderEcomAllBelumSetting
 
-4. endpoint Approve setting sepertinya belum bisa
+4. endpoint Approve setting sepertinya belum bisa / sudah
 
 ============== KEBUTUHAN ENDPOINT BARU ====================
 
