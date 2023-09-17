@@ -203,7 +203,7 @@ router.get('/orderEcomAllByBulanIni/:idAkun', (req, res) => {
     const bulan = String(tglSaatIni.getMonth() + 1).padStart(2, '0');
     const tahun = tglSaatIni.getFullYear();
 
-    const fotmatTanggal = `${bulan}-${tahun}`;
+    const fotmatTanggal = `${tahun}-${bulan}`;
 
     console.log(fotmatTanggal);
 
@@ -220,7 +220,7 @@ router.get('/orderEcomAllByBulanIni/:idAkun', (req, res) => {
         .join('laminasi', 'data_order_ecom.id_laminasi', 'laminasi.id_laminasi')
         .join('setting_order', 'data_order_ecom.id_order_ecom', '=', 'setting_order.id_order')
         .where('data_order_ecom.id_akun', 'LIKE', id_akun)
-        .andWhere('data_order_ecom.order_time', 'LIKE', '%'+ fotmatTanggal )
+        .andWhere('data_order_ecom.order_time', 'LIKE', `${fotmatTanggal}` + '%')
         .orderBy('time', 'desc')
         .limit(500)
         .then((data) => {
