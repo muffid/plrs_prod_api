@@ -1,0 +1,57 @@
+====================== PERUBAHAN =====================
+
+1. response Belum, Proses, Sudah diubah jadi Belum Setting, Proses Setting, Sudah Setting/ sudah
+2. getAllEcomm where belum setting disorting by tanggal order. yang terbaru di terakhirkan yang terlama di dahulukan / sudah
+3. minta tambahan struktur data tanggal_order_formatted dan tanggal_input_formatted biar lebih bisa dibaca manusia,
+
+    [
+        {
+            "id_order_ecom":"5HdiZe41QB",
+            "id_akun":"a1",
+            "order_time":"2023-09-15 17:45",
+            "time":"2023-09-15 17:45",
+            "no_urut":1,
+            "id_akun_ecom":"1",
+            "nama_akun_order":"Zulianto",
+            "nama_penerima":"zulianto",
+            ......dan seterusnya....
+        }
+    ]
+
+    Menjadi :
+
+    [
+        {
+            "id_order_ecom":"5HdiZe41QB",
+            "id_akun":"a1",
+            "order_time":"2023-09-15 17:45",
+            "time":"2023-09-15 17:45",
+            "no_urut":1,
+            "id_akun_ecom":"1",
+            "nama_akun_order":"Zulianto",
+            "nama_penerima":"zulianto",
+            ......dan seterusnya....
+            "tanggal_order_formatted":"15 Sept 2023 17:45",
+            "tanggal_input_formatted":"15 Sept 2023 17:45",
+        }
+    ]
+
+    berlaku di endpoint berikut:
+    - https://padvp2v123.jualdecal.com/ecommerce/orderEcomAllByIdAkun/idAkun
+    - https://padvp2v123.jualdecal.com/ecommerce/orderEcomAllByBulanIni/idAkun
+    - https://padvp2v123.jualdecal.com/ecommerce/orderEcomAllByBulanIniFE/idAkun/tanggal
+    - https://padvp2v123.jualdecal.com/ecommerce/orderEcomAllBelumSetting
+
+4. endpoint Approve setting sepertinya belum bisa
+
+============== KEBUTUHAN ENDPOINT BARU ====================
+
+5. endpoint get AllEcomm where sedang proses by id penyetting by hari ini
+6. endpoint get AllEcomm where sedang proses by id penyetting by date (tahun-bulan-tanggal)
+7. endpoint aksi untuk aksi set selesai setting
+8. endpoint aksi untuk cancel dari status selesai ke proses
+9. endpoint aksi untuk cancel dari status proses ke belum setting
+10. endpoint get AllEcomm where sudah proses by id penyetting by hari ini
+11. endpoint get AllEcomm where sudah proses by id penyetting by date (tahun-bulan-tanggal)
+
+
