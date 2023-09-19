@@ -53,7 +53,7 @@ router.put('/settingOk/:idOrder/:idAkun', async (req, res) => {
 });
 
 
-// endpoint get AllEcomm where sedang proses by id penyetting by hari ini
+// ROUT untuk endpoint get AllEcomm where sedang proses by id penyetting by hari ini
 
 router.get('/settingAll/ByHariIni/:idAkunsetting', (req, res) => {
     const id_akun = req.params.idAkun;
@@ -63,8 +63,6 @@ router.get('/settingAll/ByHariIni/:idAkunsetting', (req, res) => {
     const bulan = String(tglSaatIni.getMonth() + 1).padStart(2, '0');
     const tahun = tglSaatIni.getFullYear();
   
-
-
     const fotmatTanggal = `${tahun}-${bulan}-${hari}`;
 
     console.log(fotmatTanggal);
