@@ -43,15 +43,23 @@
     - https://padvp2v123.jualdecal.com/ecommerce/orderEcomAllBelumSetting
 
 4. endpoint Approve setting sepertinya belum bisa / sudah
+    /ecommerce/settingOk/:idOrder/:idAkun
 
 ============== KEBUTUHAN ENDPOINT BARU ====================
 
 5. endpoint get AllEcomm where sedang proses by id penyetting by hari ini
+    /ecommerce/settingAll/ByHariIni/:idAkunsetting
 6. endpoint get AllEcomm where sedang proses by id penyetting by date (tahun-bulan-tanggal)
+    /ecommerce/settingAll/ByHariIni/:idAkunsetting
 7. endpoint aksi untuk aksi set selesai setting
+    /ecommerce/settingSelesai/:idOrder/:idAkunSetting
 8. endpoint aksi untuk cancel dari status selesai ke proses
+    /ecommerce/batalSettingSelesai/:idOrder/:idAkunSetting
 9. endpoint aksi untuk cancel dari status proses ke belum setting
+    /ecommerce/batalSettingProses/:idOrder/:idAkunSetting
 10. endpoint get AllEcomm where sudah proses by id penyetting by hari ini
+    /ecommerce/settingAllSelesai/ByHariIni/:idAkunsetting
 11. endpoint get AllEcomm where sudah proses by id penyetting by date (tahun-bulan-tanggal)
+    /ecommerce/AllSelesaiSetting/:idAkunsetting/:forTgl
 
 
