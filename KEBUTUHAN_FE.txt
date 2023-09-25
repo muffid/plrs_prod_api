@@ -61,5 +61,6 @@
     /ecommerce/settingAllSelesai/ByHariIni/:idAkunsetting
 11. endpoint get AllEcomm where sudah proses by id penyetting by date (tahun-bulan-tanggal)
     /ecommerce/AllSelesaiSetting/:idAkunsetting/:forTgl
-
+12. endpoint get AllEcomm where proses setting by id penyetting 
+    /ecommerce/AllProsesSetting/:idAkunsetting
 
