@@ -50,7 +50,7 @@
 5. endpoint get AllEcomm where sedang proses by id penyetting by hari ini
     /ecommerce/settingAll/ByHariIni/:idAkunsetting
 6. endpoint get AllEcomm where sedang proses by id penyetting by date (tahun-bulan-tanggal)
-    /ecommerce/AllSelesaiSetting/:idAkunsetting/:forTgl
+    /ecommerce/AllSedangSetting/:idAkunsetting/:forTgl
 7. endpoint aksi untuk aksi set selesai setting
     /ecommerce/settingSelesai/:idOrder/:idAkunSetting
 8. endpoint aksi untuk cancel dari status selesai ke proses
