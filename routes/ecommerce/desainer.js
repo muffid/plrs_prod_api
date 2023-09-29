@@ -27,7 +27,7 @@ router.post('/newEcom', async (req, res) => {
     const {
         id_order_ecom, id_akun, order_time, id_akun_ecom, nama_akun_order, nama_penerima,    
         nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, id_laminasi, lebar_bahan, panjang_bahan, 
-        qty_order, note, key, time,  id_ekspedisi, return_order
+        qty_order, note, key, time,  id_ekspedisi, return_order, resi
     } = req.body;
 
     const currentDate = moment().format('YYYY-MM-DD');
@@ -45,7 +45,7 @@ router.post('/newEcom', async (req, res) => {
             await trx('data_order_ecom').insert({
                 id_order_ecom, id_akun, order_time, no_urut: newNoUrut, id_akun_ecom,
                 nama_akun_order, nama_penerima, nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, 
-                id_laminasi, lebar_bahan, panjang_bahan, qty_order, note, key, time, id_ekspedisi, return_order
+                id_laminasi, lebar_bahan, panjang_bahan, qty_order, note, key, time, id_ekspedisi, return_order, resi
             });
 
             const gen = generateRandomString(10);
@@ -353,7 +353,7 @@ router.put('/editOrderEcom/unOkSettingByIdorder/:idEcom', async (req, res) => {
     const Eid_order_ecom = req.params.idEcom;
     const ColumnToEdit = ['id_order_ecom', 'id_akun', 'order_time', 'id_akun_ecom', 'nama_akun_order', 'nama_penerima',
         'nomor_order', 'sku', 'warna', 'id_bahan_cetak', 'id_mesin_cetak', 'id_laminasi', 'lebar_bahan',
-        'panjang_bahan', 'qty_order', 'note', 'key', 'time', 'id_ekspedisi', 'return_order'];
+        'panjang_bahan', 'qty_order', 'note', 'key', 'time', 'id_ekspedisi', 'return_order','resi'];
 
 
     try {
