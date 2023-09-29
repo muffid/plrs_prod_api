@@ -64,3 +64,16 @@
 12. endpoint get AllEcomm where proses setting by id penyetting 
     /ecommerce/AllProsesSetting/:idAkunsetting
 
+
+============== KEBUTUHAN ENDPOINT BARU =====================
+
+1. MONITOR ORDER
+    - semua kolom dari data order ecomm (dengan join seperti kemarin" dan formatted waktu)
+    - Tahap 
+    - Nama Desainer
+    - waktu
+    - img Desainer
+    - Nama Penyeting
+    - img Penyeting
+    - waktu
+    
