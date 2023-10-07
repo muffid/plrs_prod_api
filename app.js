@@ -7,6 +7,7 @@ const dataUsers = require('./routes/lihatData')
 const dashboard = require('./routes/dashboard')
 const desainer = require('./routes/ecommerce/desainer')
 const setting = require('./routes/ecommerce/setting')
+const monitor = require('./routes/ecommerce/monitor')
 
 
 app.use(express.json()) // Middleware untuk mengurai body dalam format JSON
@@ -21,6 +22,7 @@ app.use('/dashboard', dashboard)
 app.use('/masterData', masterData)
 app.use('/ecommerce', desainer)
 app.use('/ecommerce', setting)
+app.use('/ecommerce', monitor)
 
 
 app.use('/operasi', dataUsers)
@@ -30,5 +32,5 @@ app.use('/operasi', dataUsers)
 
 
 app.listen(3000, () => {
-  console.log('Server started on port 3000')
+  console.log('Server started on port 3000 http://localhost:3000')
 })
