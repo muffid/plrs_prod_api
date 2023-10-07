@@ -69,8 +69,8 @@
 
 1. MONITOR ORDER
     - semua kolom dari data order ecomm (dengan join seperti kemarin" dan formatted waktu)
-    - Tahap 
-    - Nama Desainer
+    - Tahap ada
+    - Nama Desainer 
     - waktu
     - img Desainer
     - Nama Penyeting
