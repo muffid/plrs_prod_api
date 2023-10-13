@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 17 Sep 2023 pada 12.55
+-- Waktu pembuatan: 13 Okt 2023 pada 08.13
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -41,8 +41,8 @@ CREATE TABLE `akun` (
 --
 
 INSERT INTO `akun` (`id_akun`, `nama_akun`, `username_akun`, `password_akun`, `status_akun`, `foto_akun`) VALUES
-('1a', 'lukim', 'lukim', '123', 'admin', 'kim.jpg'),
-('1b', 'hakim', 'hakim', '123', 'desainer', 'kim.jpg'),
+('1a', 'lukim', 'lukim', '123', 'Administrator', 'kim.jpg'),
+('1b', 'hakim', 'hakim', '123', 'Desainer', 'kim.jpg'),
 ('1s', 'adi', 'adi', '123', 'Setting', 'hh.jpg'),
 ('1t', 'dini', 'dini', '123', 'Setting', 'dini.jpd');
 
@@ -110,17 +110,21 @@ CREATE TABLE `data_order_ecom` (
   `key` varchar(255) NOT NULL,
   `time` varchar(255) NOT NULL,
   `id_ekspedisi` varchar(255) NOT NULL,
-  `return_order` varchar(255) NOT NULL
+  `return_order` varchar(255) NOT NULL,
+  `resi` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `data_order_ecom`
 --
 
-INSERT INTO `data_order_ecom` (`id_order_ecom`, `id_akun`, `order_time`, `no_urut`, `id_akun_ecom`, `nama_akun_order`, `nama_penerima`, `nomor_order`, `sku`, `warna`, `id_bahan_cetak`, `id_mesin_cetak`, `id_laminasi`, `lebar_bahan`, `panjang_bahan`, `qty_order`, `note`, `key`, `time`, `id_ekspedisi`, `return_order`) VALUES
-('e1', '1b', '04-09-2023', 1, '1e', 'lia', 'kim', '453', '2634', 'Merah', '1bh', '1m', '1l', '267', '34', '1', 'segera', '', '', '1e', ''),
-('e2', '1b', '04-09-2023', 1, '1e', 'lia', 'kim', '453', '2634', 'Merah', '1bh', '1m', '1l', '267', '34', '1', 'segera', '', '', '1e', ''),
-('e3', '1b', '04-09-2023', 1, '1e', 'lia', 'kim', '453', '2634', 'Merah', '1bh', '1m', '1l', '267', '34', '1', 'segera', '', '', '1e', '');
+INSERT INTO `data_order_ecom` (`id_order_ecom`, `id_akun`, `order_time`, `no_urut`, `id_akun_ecom`, `nama_akun_order`, `nama_penerima`, `nomor_order`, `sku`, `warna`, `id_bahan_cetak`, `id_mesin_cetak`, `id_laminasi`, `lebar_bahan`, `panjang_bahan`, `qty_order`, `note`, `key`, `time`, `id_ekspedisi`, `return_order`, `resi`) VALUES
+('e1', '1b', '2023-09-20 19:18', 2, '1e', 'lia', 'kim', '453', '2634', 'Merah', '1bh', '1m', '1l', '267', '34', '1', 'segera', '', '2023-09-20 19:18', '1e', '', ''),
+('e2', '1b', '2023-09-19 19:18', 1, '1e', 'lia', 'kim', '453', '2634', 'Merah', '1bh', '1m', '1l', '267', '34', '1', 'segera', '', '2023-09-19 19:18', '1e', '', ''),
+('e3', '1b', '2023-09-17 19:08', 1, '1e', 'lia', 'kim', '453', '2634', 'Merah', '1bh', '1m', '1l', '267', '34', '1', 'segera', '', '2023-09-17 19:08', '1e', '', ''),
+('lHdfAHUtS3', '1b', '2023-09-28 12:00', 1, '1e', 'slamet', 'Diah', '0992', '204840340', 'kuning', '1bh', '1m', '1l', '128', '34', '2', 'Segera Ya', '-', '2023-09-29 18:44', '1e', '-', '68993039'),
+('sGmdcnUZH8', '1b', '2023-10-13 12:00', 1, '1e', 'Dia', 'dia', '9003929', '929200', 'Merah Marun', '1bh', '1m', '1l', '128', '128', '2', '-', '-', '2023-10-13 12:49', '1e', '-', '162782'),
+('zPPSNX19pJ', '1b', '2023-09-29 12:00', 2, '1e', 'Diyon', 'Diyon', '256567', '3534545645334', 'sembarang', '1bh', '1m', '1l', '128', '123', '1', '-', '-', '2023-09-29 18:53', '1e', '-', '253465768776');
 
 -- --------------------------------------------------------
 
@@ -185,9 +189,12 @@ CREATE TABLE `finish_order` (
 --
 
 INSERT INTO `finish_order` (`id_finish`, `id_akun`, `id_order`, `status`, `time`) VALUES
-('gNSCpBg3Ff', '', 'e1', 'Belum Cetak', '04-09-2023'),
-('JDJRuN1C0X', '', 'e3', 'Belum Cetak', '04-09-2023'),
-('pSdi6LhLA4', '', 'e2', 'Belum Cetak', '04-09-2023');
+('3YxmZlyRZR', '', 'zPPSNX19pJ', 'Belum Cetak', '2023-09-29 12:00'),
+('cU2rON900r', '', 'e3', 'Belum Cetak', '2023-09-17 19:08'),
+('h1MobSNLSG', '', 'e1', 'Belum Cetak', '2023-09-17 19:18'),
+('judLYAIxfr', '', 'sGmdcnUZH8', 'Belum Cetak', ''),
+('y8KQJu3pMa', '', 'e2', 'Belum Cetak', '2023-09-19 19:18'),
+('z63K7tte0N', '', 'lHdfAHUtS3', 'Belum Cetak', '2023-09-28 12:00');
 
 -- --------------------------------------------------------
 
@@ -248,17 +255,21 @@ CREATE TABLE `setting_order` (
   `id_akun` varchar(255) NOT NULL,
   `id_order` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
-  `time` varchar(255) NOT NULL
+  `time_start` varchar(255) NOT NULL,
+  `time_finish` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `setting_order`
 --
 
-INSERT INTO `setting_order` (`id_setting`, `id_akun`, `id_order`, `status`, `time`) VALUES
-('eFEcTG2kij', '', 'e3', 'Belum Setting', '04-09-2023'),
-('vLfzxeiBgK', '1s', 'e1', 'Proses Setting', '04-09-2023'),
-('xECRTJJesc', '1s', 'e2', 'Proses Setting', '04-09-2023');
+INSERT INTO `setting_order` (`id_setting`, `id_akun`, `id_order`, `status`, `time_start`, `time_finish`) VALUES
+('5TtJfoSgv0', '1t', 'e1', 'Proses Setting', '2023-09-28 12:45:48.672', ''),
+('6wlRMjeuKU', '1s', 'e3', 'Setting Selesai', '2023-09-29 18:49:24.508', ''),
+('bh8Z57uSXS', '1s', 'sGmdcnUZH8', 'Setting Selesai', '2023-10-13 12:58:10.113', '2023-10-13 12:59:39.787'),
+('ottPClQrME', '', 'zPPSNX19pJ', 'Belum Setting', '', ''),
+('qrpO7bIcPg', '', 'lHdfAHUtS3', 'Belum Setting', '', ''),
+('x45ltT3sHJ', '', 'e2', 'Belum Setting', '', '');
 
 -- --------------------------------------------------------
 
