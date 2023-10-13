@@ -55,7 +55,8 @@ router.post('/newEcom', async (req, res) => {
                 id_akun: "",
                 id_order: id_order_ecom,
                 status: "Belum Setting",
-                time: order_time
+                time_start: "",
+                time_finish:""
             });
 
             const gen2 = generateRandomString(10);
@@ -65,7 +66,7 @@ router.post('/newEcom', async (req, res) => {
                 id_akun: "",
                 id_order: id_order_ecom,
                 status: "Belum Cetak",
-                time: order_time
+                time: ""
             });
         });
 

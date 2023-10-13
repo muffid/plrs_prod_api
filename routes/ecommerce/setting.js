@@ -12,7 +12,7 @@ router.put('/settingOk/:idOrder/:idAkunsetting', async (req, res) => {
 
     const id_Order = req.params.idOrder;
     const id_akunsetting = req.params.idAkunsetting;
-    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'id_order', 'status', 'time'];
+    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'id_order', 'status', 'time_start','time_finish'];
     const tglSaatIni = new Date();
 
 
@@ -39,7 +39,7 @@ router.put('/settingOk/:idOrder/:idAkunsetting', async (req, res) => {
 
         updateData['id_akun'] = id_akunsetting;
         updateData['status'] = 'Proses Setting';
-        updateData['time'] = tglSaatIni;
+        updateData['time_start'] = tglSaatIni;
 
         await db('setting_order')
             .where('id_order', id_Order)            
@@ -206,7 +206,7 @@ router.put('/settingSelesai/:idOrder/:idAkunSetting', async (req, res) => {
 
     const id_Order = req.params.idOrder;
     const id_akun = req.params.idAkunSetting;
-    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'id_order', 'status', 'time'];
+    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'id_order', 'status', 'time_start','time_finish'];
     const tglSaatIni = new Date();
 
 
@@ -234,7 +234,7 @@ router.put('/settingSelesai/:idOrder/:idAkunSetting', async (req, res) => {
 
         // updateData['id_akun'] = id_akun;
         updateData['status'] = 'Setting Selesai';
-        updateData['time'] = tglSaatIni;
+        updateData['time_finish'] = tglSaatIni;
 
         await db('setting_order')
             .where('id_order', id_Order)            
@@ -257,7 +257,7 @@ router.put('/batalSettingSelesai/:idOrder/:idAkunSetting', async (req, res) => {
 
     const id_Order = req.params.idOrder;
     const id_akun = req.params.idAkunSetting;
-    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'id_order', 'status', 'time'];
+    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'id_order', 'status', 'time_start','time_finish'];
     const tglSaatIni = new Date();
 
 
@@ -285,7 +285,7 @@ router.put('/batalSettingSelesai/:idOrder/:idAkunSetting', async (req, res) => {
 
         // updateData['id_akun'] = id_akun;
         updateData['status'] = 'Proses Setting';
-        updateData['time'] = tglSaatIni;
+        updateData['time_finish'] = "";
 
         await db('setting_order')
             .where('id_order', id_Order)            
@@ -307,7 +307,7 @@ router.put('/batalSettingProses/:idOrder/:idAkunSetting', async (req, res) => {
 
     const id_Order = req.params.idOrder;
     const id_akun = req.params.idAkunSetting;
-    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'id_order', 'status', 'time'];
+    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'id_order', 'status', 'time_start','time_finish'];
     const tglSaatIni = new Date();
 
 
@@ -333,9 +333,9 @@ router.put('/batalSettingProses/:idOrder/:idAkunSetting', async (req, res) => {
             }
         });
 
-        // updateData['id_akun'] = id_akun;
+        updateData['id_akun'] = "";
         updateData['status'] = 'Belum Setting';
-        updateData['time'] = tglSaatIni;
+        updateData['time_start'] = "";
 
         await db('setting_order')
             .where('id_order', id_Order)            
