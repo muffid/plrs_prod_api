@@ -508,12 +508,7 @@ const getMonitorData = async (req, res) => {
             .catch((error) => {
                 console.error(error);
             })
-            .finally(() => {
-                /*jangan lupa setelah proses mengirim data lakukan destroy agar menutup koneksi app ke database
-                fungsi nya agar tidak memberatkan app
-                */
-                db.destroy();
-            });
+           
         })
     }
 
