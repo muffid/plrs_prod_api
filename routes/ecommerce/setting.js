@@ -363,7 +363,7 @@ router.get('/settingAllSelesai/ByHariIni/:idAkunsetting', (req, res) => {
   
     const fotmatTanggal = `${tahun}-${bulan}-${hari}`;
 
-    // console.log(fotmatTanggal);
+    console.log(fotmatTanggal);
     // Mengambil data admin dari database
     db('data_order_ecom')
             .select('data_order_ecom.*', 'akun.nama_akun', 'bahan_cetak.nama_bahan_cetak'
@@ -378,7 +378,7 @@ router.get('/settingAllSelesai/ByHariIni/:idAkunsetting', (req, res) => {
         .join('setting_order', 'data_order_ecom.id_order_ecom', '=', 'setting_order.id_order')
         .where('setting_order.id_akun', 'LIKE', id_akunsetting)
         .andWhere('setting_order.status', 'LIKE', 'Setting Selesai')
-        .andWhere('data_order_ecom.order_time', 'LIKE',  `${fotmatTanggal}`+'%')
+        .andWhere('setting_order.time_finish', 'LIKE',  `${fotmatTanggal}`+'%')
         .orderBy('time', 'asc')
         .then((data) => 
         

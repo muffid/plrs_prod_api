@@ -118,15 +118,15 @@ router.get('/orderEcomAllByIdAkun/:idAkun', (req, res) => {
                 ...item,
                 tanggal_order_formatted: format(new Date(item.order_time), "dd MMM yyyy HH:mm"),
                 tanggal_input_formatted: format(new Date(item.time), "dd MMM yyyy HH:mm"),
-            }));
+            }))
             
-            res.json(formattedData);
+            res.json(formattedData)
         })
         .catch((error) => {
-            console.log(error);
-            res.status(500).json({ error: 'An error occurred' });
-        });
-});
+            console.log(error)
+            res.status(500).json({ error: 'An error occurred' })
+        })
+})
 
 // Operasi READ: Rute untuk Mendapatkan semua data Orderan Ecommerse by id_akun dengan Join untuk mendapatkan data yang sesuai
 router.get('/orderEcomAllBelumSetting', (req, res) => {
@@ -146,13 +146,13 @@ router.get('/orderEcomAllBelumSetting', (req, res) => {
         .where('setting_order.status', 'LIKE', 'Belum Setting')
         .orderBy('order_time', 'asc')
         .then((data) => {
-            res.json(data);
+            res.json(data)
         })
         .catch((error) => {
-            console.log(error);
-            res.status(500).json({ error: 'An error occurred' });
-        });
-});
+            console.log(error)
+            res.status(500).json({ error: 'An error occurred' })
+        })
+})
 
 
 
@@ -165,12 +165,12 @@ router.get('/orderEcomAllByBulanIni/:idAkun', (req, res) => {
     // const tglHariIni = req.query.start_date;//mengambil data mulai dari
     const tglSaatIni = new Date();
     // const hari = String(tglSaatIni.getDate()).padStart(2, '0');
-    const bulan = String(tglSaatIni.getMonth() + 1).padStart(2, '0');
-    const tahun = tglSaatIni.getFullYear();
+    const bulan = String(tglSaatIni.getMonth() + 1).padStart(2, '0')
+    const tahun = tglSaatIni.getFullYear()
 
-    const fotmatTanggal = `${tahun}-${bulan}`;
+    const fotmatTanggal = `${tahun}-${bulan}`
 
-    console.log(fotmatTanggal);
+    console.log(fotmatTanggal)
 
     // Mengambil data admin dari database
     db('data_order_ecom')
@@ -196,12 +196,12 @@ router.get('/orderEcomAllByBulanIni/:idAkun', (req, res) => {
                 tanggal_input_formatted: format(new Date(item.time), "dd MMM yyyy HH:mm"),
             }));
             
-            res.json(formattedData);
+            res.json(formattedData)
         })
         .catch((error) => {
-            console.log(error);
-            res.status(500).json({ error: 'An error occurred' });
-        });
+            console.log(error)
+            res.status(500).json({ error: 'An error occurred' })
+        })
 });
 
 
@@ -218,7 +218,7 @@ router.get('/orderEcomAllByBulanIniFE/:idAkun/:forTgl', (req, res) => {
     // const bulan = String(tglSaatIni.getMonth() + 1).padStart(2, '0');
     // const tahun = tglSaatIni.getFullYear();
 
-    const fotmatTanggal = req.params.forTgl;
+    const fotmatTanggal = req.params.forTgl
 
     // console.log(fotmatTanggal);
 
@@ -244,11 +244,11 @@ router.get('/orderEcomAllByBulanIniFE/:idAkun/:forTgl', (req, res) => {
                tanggal_input_formatted: format(new Date(item.time), "dd MMM yyyy HH:mm"),
            }));
            
-           res.json(formattedData);
+           res.json(formattedData)
         })
         .catch((error) => {
-            console.log(error);
-            res.status(500).json({ error: 'An error occurred' });
+            console.log(error)
+            res.status(500).json({ error: 'An error occurred' })
         });
 });
 
