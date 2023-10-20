@@ -8,6 +8,7 @@ const dashboard = require('./routes/dashboard')
 const desainer = require('./routes/ecommerce/desainer')
 const setting = require('./routes/ecommerce/setting')
 const monitor = require('./routes/ecommerce/monitor')
+const print_operator = require('./routes/ecommerce/print_operator')
 
 
 app.use(express.json()) // Middleware untuk mengurai body dalam format JSON
@@ -23,6 +24,7 @@ app.use('/masterData', masterData)
 app.use('/ecommerce', desainer)
 app.use('/ecommerce', setting)
 app.use('/ecommerce', monitor)
+app.use('/ecommerce', print_operator)
 
 
 app.use('/operasi', dataUsers)
