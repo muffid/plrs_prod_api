@@ -84,7 +84,7 @@ router.get('/settingAll/ByHariIni/:idAkunsetting', (req, res) => {
         .join('setting_order', 'data_order_ecom.id_order_ecom', '=', 'setting_order.id_order')
         .where('setting_order.id_akun', 'LIKE', id_akunsetting)
         .andWhere('setting_order.status', 'LIKE', 'Proses Setting')
-        .andWhere('data_order_ecom.order_time', 'LIKE',  `${fotmatTanggal}`+'%')
+        .andWhere('setting_order.time_start', 'LIKE',  `${fotmatTanggal}`+'%')
         .orderBy('time', 'asc')
         .then((data) => 
         
@@ -368,7 +368,7 @@ router.get('/settingAllSelesai/ByHariIni/:idAkunsetting', (req, res) => {
     db('data_order_ecom')
             .select('data_order_ecom.*', 'akun.nama_akun', 'bahan_cetak.nama_bahan_cetak'
             , 'mesin_cetak.nama_mesin_cetak', 'akun_ecom.nama_akun_ecom'
-            , 'ekspedisi.nama_ekspedisi', 'laminasi.nama_laminasi', 'setting_order.status')
+            , 'ekspedisi.nama_ekspedisi', 'laminasi.nama_laminasi', 'setting_order.status','setting_order.time_finish')
         .join('akun', 'data_order_ecom.id_akun', 'akun.id_akun')
         .join('bahan_cetak', 'data_order_ecom.id_bahan_cetak', 'bahan_cetak.id_bahan_cetak')
         .join('mesin_cetak', 'data_order_ecom.id_mesin_cetak', 'mesin_cetak.id_mesin_cetak')
@@ -388,6 +388,7 @@ router.get('/settingAllSelesai/ByHariIni/:idAkunsetting', (req, res) => {
                ...item,
                tanggal_order_formatted: format(new Date(item.order_time), "dd MMM yyyy HH:mm"),
                tanggal_input_formatted: format(new Date(item.time), "dd MMM yyyy HH:mm"),
+               tanggal_selesai_setting_formatted: format(new Date(item.time_finish),"dd MMM yyy HH:mm"),
            }));
            
            res.json(formattedData);
@@ -416,7 +417,7 @@ router.get('/AllSelesaiSetting/:idAkunsetting/:forTgl', (req, res) => {
     db('data_order_ecom')
             .select('data_order_ecom.*', 'akun.nama_akun', 'bahan_cetak.nama_bahan_cetak'
             , 'mesin_cetak.nama_mesin_cetak', 'akun_ecom.nama_akun_ecom'
-            , 'ekspedisi.nama_ekspedisi', 'laminasi.nama_laminasi', 'setting_order.status')
+            , 'ekspedisi.nama_ekspedisi', 'laminasi.nama_laminasi', 'setting_order.status','setting_order.time_finish')
         .join('akun', 'data_order_ecom.id_akun', 'akun.id_akun')
         .join('bahan_cetak', 'data_order_ecom.id_bahan_cetak', 'bahan_cetak.id_bahan_cetak')
         .join('mesin_cetak', 'data_order_ecom.id_mesin_cetak', 'mesin_cetak.id_mesin_cetak')
@@ -426,7 +427,7 @@ router.get('/AllSelesaiSetting/:idAkunsetting/:forTgl', (req, res) => {
         .join('setting_order', 'data_order_ecom.id_order_ecom', '=', 'setting_order.id_order')
         .where('setting_order.id_akun', 'LIKE', id_akunsetting)
         .andWhere('setting_order.status', 'LIKE', 'Setting Selesai')
-        .andWhere('data_order_ecom.order_time', 'LIKE',  fotmatTanggal +'%')
+        .andWhere('setting_order.time_finish', 'LIKE',  fotmatTanggal +'%')
         .orderBy('time', 'asc')
         .then((data) => 
         
@@ -436,6 +437,7 @@ router.get('/AllSelesaiSetting/:idAkunsetting/:forTgl', (req, res) => {
                ...item,
                tanggal_order_formatted: format(new Date(item.order_time), "dd MMM yyyy HH:mm"),
                tanggal_input_formatted: format(new Date(item.time), "dd MMM yyyy HH:mm"),
+               tanggal_selesai_setting_formatted: format(new Date(item.time_finish),"dd MMM yyy HH:mm"),
            }));
            
            res.json(formattedData);
