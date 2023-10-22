@@ -7,7 +7,7 @@ const verifyToken = require('../../middleware/jwttoken')
 
 
 // Operasi READ: Rute untuk Mendapatkan semua data Orderan Ecommerse by NO Resi
-router.get('/orderEcom/:NoResi', (req, res) => {
+router.get('/finish/:NoResi', (req, res) => {
     // const id_akun = req.params.idAkun
     // const adminApvDesainer = req.params.adminApvDesainer
     const No_Resi = req.params.NoResi
@@ -42,5 +42,57 @@ router.get('/orderEcom/:NoResi', (req, res) => {
 
 
 });
+
+// endpoint aksi untuk aksi set selesai setting
+router.put('/OrderTuntas/:idOrder/:idAkunop', async (req, res) => {
+
+    const id_Order = req.params.idOrder;
+    const id_akunop = req.params.idAkunop;
+    const ColumnToEdit = [ 'id_akun', 'id_order', 'status', 'time'];
+    const tglSaatIni = new Date();
+
+
+    try {
+
+        const belumOk = await db('finish_order')
+            .where({ 'finish_order.id_order': id_Order })
+            .andWhere({ 'finish_order.status': 'Belum Cetak' })
+
+            .first()
+
+        if (!belumOk) {
+            return res.status(220).json({ message: 'Data Sedang diproses oleh setting'})
+        }
+
+       
+        const updateData = {};
+        ColumnToEdit.forEach(column => {
+            if (req.body[column]) {
+                updateData[column] = req.body[column]
+
+            }
+        });
+
+        updateData['id_akun'] = id_akunop;
+        updateData['status'] = 'Tuntas';
+        updateData['time'] = tglSaatIni;
+
+        await db('finish_order')
+            .where('id_order', id_Order)            
+            .update(updateData);
+
+            res.status(200).json({ message: 'Data Berhasil Dirubah' });
+
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'An error occurred' });
+    }
+
+});
+
+
+
 
 module.exports = router;
