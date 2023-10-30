@@ -9,6 +9,7 @@ const desainer = require('./routes/ecommerce/desainer')
 const setting = require('./routes/ecommerce/setting')
 const monitor = require('./routes/ecommerce/monitor')
 const print_operator = require('./routes/ecommerce/print_operator')
+const dataNonEcom = require('./routes/nonecom/coba')
 
 
 app.use(express.json()) // Middleware untuk mengurai body dalam format JSON
@@ -30,7 +31,8 @@ app.use('/ecommerce', print_operator)
 app.use('/operasi', dataUsers)
 
 
-
+//Data Non Ecommerce
+app.use('/nonecom', dataNonEcom)
 
 
 app.listen(3000, () => {
