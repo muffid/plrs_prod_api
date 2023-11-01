@@ -25,12 +25,13 @@ function generateRandomString(length) {
 // Operasi CREATE : Rute untuk menambahkan BAHAN CETAK baru verifyToken,
 router.post('/newEcom', async (req, res) => {
     const {
-        id_order_ecom, id_akun, order_time, id_akun_ecom, nama_akun_order, nama_penerima,    
-        nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, id_laminasi, lebar_bahan, panjang_bahan, 
+        id_order_ecom, id_akun, order_time, no_sc, id_akun_ecom, nama_akun_order, nama_penerima,
+        nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, id_laminasi, lebar_bahan, panjang_bahan,
         qty_order, note, key, time,  id_ekspedisi, return_order, resi
     } = req.body;
 
     const currentDate = moment().format('YYYY-MM-DD');
+    // console.log(currentDate);
 
     try {
         await db.transaction(async (trx) => {
@@ -38,44 +39,61 @@ router.post('/newEcom', async (req, res) => {
                 .whereRaw(`DATE_FORMAT(time, '%Y-%m-%d') = ?`, [currentDate])
                 .max('no_urut as maxNoUrut')
                 .first();
-
             const maxNoUrut = result ? result.maxNoUrut || 0 : 0;
             const newNoUrut = maxNoUrut + 1;
 
-            await trx('data_order_ecom').insert({
-                id_order_ecom, id_akun, order_time, no_urut: newNoUrut, id_akun_ecom,
-                nama_akun_order, nama_penerima, nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, 
-                id_laminasi, lebar_bahan, panjang_bahan, qty_order, note, key, time, id_ekspedisi, return_order, resi
-            });
+            const cariNama = await trx('akun')
+                .select('nama_akun')
+                .where('id_akun', id_akun)
+                .first();
+            const namaAkun = cariNama.nama_akun;
+            const karakter = namaAkun.slice(0, 3);
 
-            const gen = generateRandomString(10);
+            const ceknoorder = await trx('data_order_ecom')
+                .where('nomor_order', nomor_order)
+                .first();
 
-            await trx('setting_order').insert({
-                id_setting: gen,
-                id_akun: "",
-                id_order: id_order_ecom,
-                status: "Belum Setting",
-                time_start: "",
-                time_finish:""
-            });
+            if (!ceknoorder) {
+                await trx('data_order_ecom').insert({
+                    id_order_ecom, id_akun, order_time, no_urut: newNoUrut, no_sc: karakter + " " + no_sc, id_akun_ecom,
+                    nama_akun_order, nama_penerima, nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, 
+                    id_laminasi, lebar_bahan, panjang_bahan, qty_order, note, key, time, id_ekspedisi, return_order, resi
+                });
 
-            const gen2 = generateRandomString(10);
+                const gen = generateRandomString(10);
 
-            await trx('finish_order').insert({
-                id_finish: gen2,
-                id_akun: "",
-                id_order: id_order_ecom,
-                status: "Belum Cetak",
-                time: ""
-            });
+                await trx('setting_order').insert({
+                    id_setting: gen,
+                    id_akun: "",
+                    id_order: id_order_ecom,
+                    status: "Belum Setting",
+                    time_start: "",
+                    time_finish: ""
+                });
+
+                const gen2 = generateRandomString(10);
+
+                await trx('finish_order').insert({
+                    id_finish: gen2,
+                    id_akun: "",
+                    id_order: id_order_ecom,
+                    status: "Belum Cetak",
+                    time: ""
+                });
+
+                // Kode berikut mengirim respons 201 (Created) untuk menunjukkan data berhasil ditambahkan
+                res.status(201).json({ message: 'Data inserted successfully' });
+            } else {
+                // Jika data ditemukan, kirim respons 409 (Conflict) bahwa data sudah ada
+                res.status(409).json({ error: 'Data Sudah Ada' });
+            }
         });
-
-        res.json({ message: 'Data inserted successfully' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error:  error});
+        res.status(500).json({ error });
     }
 });
+
 
 
 // Operasi READ: Rute untuk Mendapatkan semua data Orderan Ecommerse
