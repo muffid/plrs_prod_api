@@ -55,7 +55,7 @@ router.post('/newEcom', async (req, res) => {
 
             if (!ceknoorder) {
                 await trx('data_order_ecom').insert({
-                    id_order_ecom, id_akun, order_time, no_urut: newNoUrut, no_sc: karakter + " " + no_sc, id_akun_ecom,
+                    id_order_ecom, id_akun, order_time, no_urut: newNoUrut, no_sc:no_sc+"-"+karakter, id_akun_ecom,
                     nama_akun_order, nama_penerima, nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, 
                     id_laminasi, lebar_bahan, panjang_bahan, qty_order, note, key, time, id_ekspedisi, return_order, resi
                 });
@@ -82,7 +82,7 @@ router.post('/newEcom', async (req, res) => {
                 });
 
                 // Kode berikut mengirim respons 201 (Created) untuk menunjukkan data berhasil ditambahkan
-                res.status(201).json({ message: 'Data inserted successfully' });
+                res.status(200).json({ message: 'Data inserted successfully' });
             } else {
                 // Jika data ditemukan, kirim respons 409 (Conflict) bahwa data sudah ada
                 res.status(409).json({ error: 'Data Sudah Ada' });
