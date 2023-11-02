@@ -50,6 +50,7 @@ router.post('/newEcom', async (req, res) => {
             const karakter = namaAkun.slice(0, 3);
 
             const ceknoorder = await trx('data_order_ecom')
+                .limit(1000)
                 .where('nomor_order', nomor_order)
                 .first();
 
