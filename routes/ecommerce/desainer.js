@@ -50,12 +50,13 @@ router.post('/newEcom', async (req, res) => {
             const karakter = namaAkun.slice(0, 3);
 
             const ceknoorder = await trx('data_order_ecom')
+                .limit(1000)
                 .where('nomor_order', nomor_order)
                 .first();
 
             if (!ceknoorder) {
                 await trx('data_order_ecom').insert({
-                    id_order_ecom, id_akun, order_time, no_urut: newNoUrut, no_sc: karakter + " " + no_sc, id_akun_ecom,
+                    id_order_ecom, id_akun, order_time, no_urut: newNoUrut, no_sc:no_sc+"-"+karakter, id_akun_ecom,
                     nama_akun_order, nama_penerima, nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, 
                     id_laminasi, lebar_bahan, panjang_bahan, qty_order, note, key, time, id_ekspedisi, return_order, resi
                 });
