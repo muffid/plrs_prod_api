@@ -81,7 +81,7 @@ router.post('/newEcom', async (req, res) => {
                     time: ""
                 });
 
-                // Kode berikut mengirim respons 201 (Created) untuk menunjukkan data berhasil ditambahkan
+                // Kode berikut mengirim respons 200 (Created) untuk menunjukkan data berhasil ditambahkan
                 res.status(200).json({ message: 'Data inserted successfully' });
             } else {
                 // Jika data ditemukan, kirim respons 409 (Conflict) bahwa data sudah ada
@@ -314,7 +314,7 @@ router.get('/orderEcom/unOkSettingByIdEcom/:idEcom', (req, res) => {
 router.put('/editOrderEcom/unOkSettingByIdorder/:idEcom', async (req, res) => {
     // const Eid_akun = req.params.idAkun;
     const Eid_order_ecom = req.params.idEcom;
-    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'order_time', 'id_akun_ecom', 'nama_akun_order', 'nama_penerima',
+    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'order_time', 'no_sc','id_akun_ecom', 'nama_akun_order', 'nama_penerima',
         'nomor_order', 'sku', 'warna', 'id_bahan_cetak', 'id_mesin_cetak', 'id_laminasi', 'lebar_bahan',
         'panjang_bahan', 'qty_order', 'note', 'key', 'time', 'id_ekspedisi', 'return_order','resi'];
 
