@@ -82,7 +82,7 @@ router.post('/newEcom', async (req, res) => {
                 });
 
                 // Kode berikut mengirim respons 201 (Created) untuk menunjukkan data berhasil ditambahkan
-                res.status(201).json({ message: 'Data inserted successfully' });
+                res.status(200).json({ message: 'Data inserted successfully' });
             } else {
                 // Jika data ditemukan, kirim respons 409 (Conflict) bahwa data sudah ada
                 res.status(409).json({ error: 'Data Sudah Ada' });
