@@ -100,7 +100,7 @@ router.post('/newEcom', async (req, res) => {
                
             } else {
                 // Jika data ditemukan, kirim respons 409 (Conflict) bahwa data sudah ada
-                res.status(409).json({ error: 'Data Sudah Ada' });
+                res.status(409).json({ error: 'Data order sudah di input' });
             }
         });
     } catch (error) {
