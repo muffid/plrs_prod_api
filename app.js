@@ -9,7 +9,9 @@ const desainer = require('./routes/ecommerce/desainer')
 const setting = require('./routes/ecommerce/setting')
 const monitor = require('./routes/ecommerce/monitor')
 const print_operator = require('./routes/ecommerce/print_operator')
-const dataNonEcom = require('./routes/nonecom/coba')
+const dataNonEcom = require('./routes/nonecom/dataCustomerNonEcom')
+const neDesainer = require('./routes/nonecom/desainer')
+const neSetting = require('./routes/nonecom/setting')
 
 
 app.use(express.json()) // Middleware untuk mengurai body dalam format JSON
@@ -33,6 +35,9 @@ app.use('/operasi', dataUsers)
 
 //Data Non Ecommerce
 app.use('/nonecom', dataNonEcom)
+app.use('/nonecom', neDesainer)
+app.use('/nonecom', neSetting)
+
 
 
 app.listen(3000, () => {
