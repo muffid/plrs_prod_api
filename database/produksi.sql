@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 02 Nov 2023 pada 04.23
+-- Waktu pembuatan: 10 Nov 2023 pada 15.37
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -123,7 +123,8 @@ CREATE TABLE `data_order_ecom` (
 INSERT INTO `data_order_ecom` (`id_order_ecom`, `id_akun`, `order_time`, `no_urut`, `no_sc`, `id_akun_ecom`, `nama_akun_order`, `nama_penerima`, `nomor_order`, `sku`, `warna`, `id_bahan_cetak`, `id_mesin_cetak`, `id_laminasi`, `lebar_bahan`, `panjang_bahan`, `qty_order`, `note`, `key`, `time`, `id_ekspedisi`, `return_order`, `resi`) VALUES
 ('e1', '1b', '04-09-2023', 2, 'hak 3', '1e', 'lia', 'kim', '799', '2634', 'Merah', '1bh', '1m', '1l', '267', '34', '1', 'segera', '', '2023-11-02', '1e', '', ''),
 ('e4', '1b', '04-09-2023', 1, 'hak 3', '1e', 'lia', 'kim', '709', '2634', 'Merah', '1bh', '1m', '1l', '267', '34', '1', 'segera', '', '2023-11-02', '1e', '', ''),
-('e5', '1b', '04-09-2023', 3, 'hak 3', '1e', 'lia', 'kim', '739', '2634', 'Merah', '1bh', '1m', '1l', '267', '34', '1', 'segera', '', '2023-11-02', '1e', '', '');
+('e5', '1b', '04-09-2023', 3, 'hak 3', '1e', 'lia', 'kim', '739', '2634', 'Merah', '1bh', '1m', '1l', '267', '34', '1', 'segera', '', '2023-11-02', '1e', '', ''),
+('e7', '1b', '04-09-2023', 4, 'hak 3', '1e', 'lia', 'kim', '939', '2634', 'Merah', '1bh', '1m', '1l', '267', '34', '1', 'segera', '', '2023-11-02', '1e', '', '');
 
 -- --------------------------------------------------------
 
@@ -136,9 +137,11 @@ CREATE TABLE `data_order_non_ecom` (
   `id_akun` varchar(255) NOT NULL,
   `nama_customer` varchar(255) NOT NULL,
   `order_time` varchar(255) NOT NULL,
-  `nama_file` varchar(255) NOT NULL,
+  `no_urut` varchar(225) NOT NULL,
+  `no_sc` varchar(225) NOT NULL,
+  `warna` varchar(225) NOT NULL,
   `id_bahan_cetak` varchar(255) NOT NULL,
-  `id_meisn_cetak` varchar(255) NOT NULL,
+  `id_mesin_cetak` varchar(255) NOT NULL,
   `id_laminasi` varchar(255) NOT NULL,
   `lebar_bahan` varchar(255) NOT NULL,
   `panjang_bahan` varchar(255) NOT NULL,
@@ -147,9 +150,15 @@ CREATE TABLE `data_order_non_ecom` (
   `note` varchar(255) NOT NULL,
   `key` varchar(255) NOT NULL,
   `time` varchar(255) NOT NULL,
-  `id_ekspedisi` varchar(255) NOT NULL,
-  `return_order` varchar(255) NOT NULL
+  `id_ekspedisi` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `data_order_non_ecom`
+--
+
+INSERT INTO `data_order_non_ecom` (`id_order_ne`, `id_akun`, `nama_customer`, `order_time`, `no_urut`, `no_sc`, `warna`, `id_bahan_cetak`, `id_mesin_cetak`, `id_laminasi`, `lebar_bahan`, `panjang_bahan`, `qty_order`, `finishing`, `note`, `key`, `time`, `id_ekspedisi`) VALUES
+('r4', '1b', 'Hakim', '2023-11-30 04:00', '1', '1-hak', 'Hijau', '1bh', '1m', '1l', '128', '100', '1', 'hilang', 'cepat', '', '2023-10-31 20:43', '1e');
 
 -- --------------------------------------------------------
 
@@ -190,7 +199,29 @@ CREATE TABLE `finish_order` (
 INSERT INTO `finish_order` (`id_finish`, `id_akun`, `id_order`, `status`, `time`) VALUES
 ('0I1ACkUx3O', '', 'e5', 'Belum Cetak', ''),
 ('aPVbXGlyhS', '', 'e1', 'Belum Cetak', ''),
+('clu48QyPT4', '', 'e7', 'Belum Cetak', ''),
 ('x5zGod8uFj', '', 'e4', 'Belum Cetak', '');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `finish_order_ne`
+--
+
+CREATE TABLE `finish_order_ne` (
+  `id_finish_ne` varchar(225) NOT NULL,
+  `id_akun` varchar(225) NOT NULL,
+  `id_order_ne` varchar(225) NOT NULL,
+  `status` varchar(225) NOT NULL,
+  `time` varchar(225) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `finish_order_ne`
+--
+
+INSERT INTO `finish_order_ne` (`id_finish_ne`, `id_akun`, `id_order_ne`, `status`, `time`) VALUES
+('jyH8IYimPx', '', 'r4', 'Belum Cetak', '');
 
 -- --------------------------------------------------------
 
@@ -262,7 +293,30 @@ CREATE TABLE `setting_order` (
 INSERT INTO `setting_order` (`id_setting`, `id_akun`, `id_order`, `status`, `time_start`, `time_finish`) VALUES
 ('dzRWBnCLuU', '', 'e5', 'Belum Setting', '', ''),
 ('hcG9svG0DB', '', 'e1', 'Belum Setting', '', ''),
-('If47KZB0wp', '', 'e4', 'Belum Setting', '', '');
+('If47KZB0wp', '', 'e4', 'Belum Setting', '', ''),
+('pRGURP1vHH', '', 'e7', 'Belum Setting', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `setting_order_ne`
+--
+
+CREATE TABLE `setting_order_ne` (
+  `id_setting_ne` varchar(225) NOT NULL,
+  `id_akun` varchar(225) NOT NULL,
+  `id_order_ne` varchar(225) NOT NULL,
+  `status` varchar(225) NOT NULL,
+  `time_start` varchar(225) NOT NULL,
+  `time_finish` varchar(225) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `setting_order_ne`
+--
+
+INSERT INTO `setting_order_ne` (`id_setting_ne`, `id_akun`, `id_order_ne`, `status`, `time_start`, `time_finish`) VALUES
+('jLPSJltn7O', '', 'r4', 'sudah', '', '');
 
 -- --------------------------------------------------------
 
@@ -316,7 +370,7 @@ ALTER TABLE `data_order_ecom`
 ALTER TABLE `data_order_non_ecom`
   ADD PRIMARY KEY (`id_order_ne`),
   ADD KEY `data_order_non_ecom_id_ekspedisi_foreign` (`id_ekspedisi`),
-  ADD KEY `data_order_non_ecom_id_meisn_cetak_foreign` (`id_meisn_cetak`),
+  ADD KEY `data_order_non_ecom_id_meisn_cetak_foreign` (`id_mesin_cetak`),
   ADD KEY `data_order_non_ecom_id_akun_foreign` (`id_akun`),
   ADD KEY `data_order_non_ecom_id_bahan_cetak_foreign` (`id_bahan_cetak`),
   ADD KEY `data_order_non_ecom_id_laminasi_foreign` (`id_laminasi`);
@@ -333,6 +387,12 @@ ALTER TABLE `ekspedisi`
 ALTER TABLE `finish_order`
   ADD PRIMARY KEY (`id_finish`),
   ADD KEY `finish_order_id_akun_foreign` (`id_akun`);
+
+--
+-- Indeks untuk tabel `finish_order_ne`
+--
+ALTER TABLE `finish_order_ne`
+  ADD PRIMARY KEY (`id_finish_ne`);
 
 --
 -- Indeks untuk tabel `konsumen_order`
@@ -358,6 +418,12 @@ ALTER TABLE `mesin_cetak`
 ALTER TABLE `setting_order`
   ADD PRIMARY KEY (`id_setting`),
   ADD KEY `setting_order_id_akun_foreign` (`id_akun`);
+
+--
+-- Indeks untuk tabel `setting_order_ne`
+--
+ALTER TABLE `setting_order_ne`
+  ADD PRIMARY KEY (`id_setting_ne`);
 
 --
 -- Indeks untuk tabel `surat_jalan`
@@ -389,7 +455,7 @@ ALTER TABLE `data_order_non_ecom`
   ADD CONSTRAINT `data_order_non_ecom_id_bahan_cetak_foreign` FOREIGN KEY (`id_bahan_cetak`) REFERENCES `bahan_cetak` (`id_bahan_cetak`),
   ADD CONSTRAINT `data_order_non_ecom_id_ekspedisi_foreign` FOREIGN KEY (`id_ekspedisi`) REFERENCES `ekspedisi` (`id_ekspedisi`),
   ADD CONSTRAINT `data_order_non_ecom_id_laminasi_foreign` FOREIGN KEY (`id_laminasi`) REFERENCES `laminasi` (`id_laminasi`),
-  ADD CONSTRAINT `data_order_non_ecom_id_meisn_cetak_foreign` FOREIGN KEY (`id_meisn_cetak`) REFERENCES `mesin_cetak` (`id_mesin_cetak`);
+  ADD CONSTRAINT `data_order_non_ecom_id_meisn_cetak_foreign` FOREIGN KEY (`id_mesin_cetak`) REFERENCES `mesin_cetak` (`id_mesin_cetak`);
 
 --
 -- Ketidakleluasaan untuk tabel `surat_jalan`
