@@ -410,6 +410,45 @@ router.delete('/deleteOrderEcom/unOkSettingByIdorder/:idEcom', async (req, res) 
 });
 
 
+router.put('/returnOrder/:idEcom', async (req, res) => {
+    // const Eid_akun = req.params.idAkun;
+    const Eid_order_ecom = req.params.idEcom;
+    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'order_time', 'no_sc','id_akun_ecom', 'nama_akun_order', 'nama_penerima',
+        'nomor_order', 'sku', 'warna', 'id_bahan_cetak', 'id_mesin_cetak', 'id_laminasi', 'lebar_bahan',
+        'panjang_bahan', 'qty_order', 'note', 'key', 'time', 'id_ekspedisi', 'return_order','resi'];
 
+
+    try {
+        const belumSetting = await db('data_order_ecom')
+            .join('setting_order', 'data_order_ecom.id_order_ecom', '=', 'setting_order.id_order')
+            .where({ 'data_order_ecom.id_order_ecom': Eid_order_ecom, 'setting_order.status': 'Belum Setting' })
+            .first();
+
+        if (!belumSetting) {
+            return res.status(404).json({ message: 'Data tidak dapat diedit karena Sudah Masuk Setting' })
+
+        }
+
+        const updateData = {};
+        ColumnToEdit.forEach(column => {
+            if (req.body[column]) {
+                updateData[column] = req.body[column]
+
+            }
+        });
+        await db('data_order_ecom')
+            .where('id_order_ecom', Eid_order_ecom)
+            .update(updateData);
+
+        res.json({ message: 'Data Berhasil Dirubah' })
+
+    } catch (error) {
+
+        console.log(error);
+        res.status(500).json({ error: 'An error occurred' });
+    }
+
+
+});
 
 module.exports = router;

@@ -89,7 +89,52 @@ router.put('/OrderTuntas/:idOrder/:idAkunop', async (req, res) => {
     }
 });
 
+router.get('/AllprosesSetting', (req, res) => {
+    // const id_akunsetting = req.params.idAkunsetting;
+    
+    // const tglSaatIni = new Date();
+    // const hari = String(tglSaatIni.getDate()).padStart(2, '0');
+    // const bulan = String(tglSaatIni.getMonth() + 1).padStart(2, '0');
+    // const tahun = tglSaatIni.getFullYear();
+  
+    // const fotmatTanggal = `${tahun}-${bulan}-${hari}`;
+    // const fotmatTanggal = req.params.forTgl;
 
+
+    // console.log(fotmatTanggal);
+    // Mengambil data admin dari database
+    db('data_order_ecom')
+            .select('data_order_ecom.*', 'akun.nama_akun', 'bahan_cetak.nama_bahan_cetak'
+            , 'mesin_cetak.nama_mesin_cetak', 'akun_ecom.nama_akun_ecom'
+            , 'ekspedisi.nama_ekspedisi', 'laminasi.nama_laminasi', 'setting_order.status')
+        .join('akun', 'data_order_ecom.id_akun', 'akun.id_akun')
+        .join('bahan_cetak', 'data_order_ecom.id_bahan_cetak', 'bahan_cetak.id_bahan_cetak')
+        .join('mesin_cetak', 'data_order_ecom.id_mesin_cetak', 'mesin_cetak.id_mesin_cetak')
+        .join('akun_ecom', 'data_order_ecom.id_akun_ecom', 'akun_ecom.id_akun_ecom')
+        .join('ekspedisi', 'data_order_ecom.id_ekspedisi', 'ekspedisi.id_ekspedisi')
+        .join('laminasi', 'data_order_ecom.id_laminasi', 'laminasi.id_laminasi')
+        .join('setting_order', 'data_order_ecom.id_order_ecom', '=', 'setting_order.id_order')
+        // .where('setting_order.id_akun', 'LIKE', id_akunsetting)
+        .where('setting_order.status', 'LIKE', 'Proses Setting')
+        // .andWhere('data_order_ecom.order_time', 'LIKE',  fotmatTanggal +'%')
+        .orderBy('time', 'asc')
+        .then((data) => 
+        
+            { 
+                //  Mengubah format tanggal sebelum mengirim respons JSON
+            const formattedData = data.map((item) => ({
+               ...item,
+               tanggal_order_formatted: format(new Date(item.order_time), "dd MMM yyyy HH:mm"),
+               tanggal_input_formatted: format(new Date(item.time), "dd MMM yyyy HH:mm"),
+           }));
+           
+           res.json(formattedData);
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(500).json({ error: 'An error occurred' });
+        });
+});
 
 //membuat async arrow function bernama getMonitorData
 const getTuntas = async (req, res) => {
@@ -159,6 +204,7 @@ const getTuntas = async (req, res) => {
 }
 
 router.get('/tuntas',getTuntas)
+
 
 
 
