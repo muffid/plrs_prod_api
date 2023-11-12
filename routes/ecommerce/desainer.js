@@ -419,13 +419,13 @@ router.put('/returnOrder/:idEcom', async (req, res) => {
 
 
     try {
-        const belumSetting = await db('data_order_ecom')
-            .join('setting_order', 'data_order_ecom.id_order_ecom', '=', 'setting_order.id_order')
-            .where({ 'data_order_ecom.id_order_ecom': Eid_order_ecom, 'setting_order.status': 'Belum Setting' })
+        const tuntas = await db('data_order_ecom')
+            .join('finish_order', 'data_order_ecom.id_order_ecom', '=', 'finish_order.id_order')
+            .where({ 'data_order_ecom.id_order_ecom': Eid_order_ecom, 'finish_order.status': 'Tuntas' })
             .first();
 
-        if (!belumSetting) {
-            return res.status(404).json({ message: 'Data tidak dapat diedit karena Sudah Masuk Setting' })
+        if (!tuntas) {
+            return res.status(404).json({ message: 'Data Belum Tuntas' })
 
         }
 
@@ -436,11 +436,12 @@ router.put('/returnOrder/:idEcom', async (req, res) => {
 
             }
         });
+        updateData['return_order'] = 'Y';
         await db('data_order_ecom')
             .where('id_order_ecom', Eid_order_ecom)
             .update(updateData);
 
-        res.json({ message: 'Data Berhasil Dirubah' })
+        res.json({ message: 'Data Order Masuk Return' })
 
     } catch (error) {
 
@@ -451,4 +452,36 @@ router.put('/returnOrder/:idEcom', async (req, res) => {
 
 });
 
+router.get('/AllReturn', (req, res) => {
+    
+
+    // Mengambil data admin dari database
+    db('data_order_ecom')
+        .select('data_order_ecom.*', 'akun.nama_akun', 'bahan_cetak.nama_bahan_cetak'
+            , 'mesin_cetak.nama_mesin_cetak', 'akun_ecom.nama_akun_ecom'
+            , 'ekspedisi.nama_ekspedisi', 'laminasi.nama_laminasi', 'setting_order.status')
+        .join('akun', 'data_order_ecom.id_akun', 'akun.id_akun')
+        .join('bahan_cetak', 'data_order_ecom.id_bahan_cetak', 'bahan_cetak.id_bahan_cetak')
+        .join('mesin_cetak', 'data_order_ecom.id_mesin_cetak', 'mesin_cetak.id_mesin_cetak')
+        .join('akun_ecom', 'data_order_ecom.id_akun_ecom', 'akun_ecom.id_akun_ecom')
+        .join('ekspedisi', 'data_order_ecom.id_ekspedisi', 'ekspedisi.id_ekspedisi')
+        .join('laminasi', 'data_order_ecom.id_laminasi', 'laminasi.id_laminasi')
+        .join('setting_order', 'data_order_ecom.id_order_ecom', '=', 'setting_order.id_order')
+        .where('data_order_ecom.return_order', 'LIKE', 'Y')
+        // .andWhere('data_order_ecom.order_time', 'LIKE',  fotmatTanggal +'%')
+        .orderBy('time', 'asc')
+        .then((data) => { //  Mengubah format tanggal sebelum mengirim respons JSON
+            const formattedData = data.map((item) => ({
+               ...item,
+               tanggal_order_formatted: format(new Date(item.order_time), "dd MMM yyyy HH:mm"),
+               tanggal_input_formatted: format(new Date(item.time), "dd MMM yyyy HH:mm"),
+           }));
+           
+           res.json(formattedData)
+        })
+        .catch((error) => {
+            console.log(error)
+            res.status(500).json({ error: 'An error occurred' })
+        });
+});
 module.exports = router;

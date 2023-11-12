@@ -214,7 +214,7 @@ router.put('/settingSelesai/:idOrder/:idAkunSetting', async (req, res) => {
 
         const selesai = await db('setting_order')
             .where({ 'setting_order.id_order': id_Order })
-            .andWhere({'setting_order.id_akun': id_akun})
+            // .andWhere({'setting_order.id_akun': id_akun})
             .andWhere({ 'setting_order.status': 'Proses Setting' })
 
             .first()
