@@ -276,7 +276,7 @@ router.get('/byBulan/Tuntas/:forTgl', async (req, res) => {
 })
 
 
-router.get('/byBulanIni/Tuntas/', async (req, res) => {
+router.get('/ByBulanIniTuntas/', async (req, res) => {
     const tglSaatIni = new Date();
     // const hari = String(tglSaatIni.getDate()).padStart(2, '0');
     const bulan = String(tglSaatIni.getMonth() + 1).padStart(2, '0')
@@ -284,7 +284,7 @@ router.get('/byBulanIni/Tuntas/', async (req, res) => {
 
     const fotmatTanggal = `${tahun}-${bulan}`
 
-    console.log(fotmatTanggal)
+    // console.log(fotmatTanggal)
 
     db.select('data_order_ecom.*', 'akun.nama_akun AS nama_desainer','bahan_cetak.nama_bahan_cetak'
     , 'mesin_cetak.nama_mesin_cetak', 'akun_ecom.nama_akun_ecom'
