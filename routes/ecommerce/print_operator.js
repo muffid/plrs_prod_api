@@ -117,7 +117,7 @@ router.get('/AllprosesSetting', (req, res) => {
         // .where('setting_order.id_akun', 'LIKE', id_akunsetting)
         .where('setting_order.status', 'LIKE', 'Proses Setting')
         // .andWhere('data_order_ecom.order_time', 'LIKE',  fotmatTanggal +'%')
-        .orderBy('time', 'asc')
+        .orderBy('order_time', 'asc')
         .then((data) => 
         
             { 

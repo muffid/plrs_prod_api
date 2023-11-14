@@ -9,6 +9,7 @@ router.get('/dataAll', (req, res) => {
   // Mengambil data admin dari database
   db.select('*')
     .from('customer')
+    .orderBy('ID', 'desc')
     .then((data) => {
       res.json(data);
     })
