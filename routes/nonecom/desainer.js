@@ -184,11 +184,10 @@ router.get('/orderNeAllByBulanIni/:idAkun', (req, res) => {
     // Mengambil data admin dari database
     db('data_order_non_ecom')
         .select('data_order_non_ecom.*', 'akun.nama_akun', 'bahan_cetak.nama_bahan_cetak'
-            , 'mesin_cetak.nama_mesin_cetak', 'ekspedisi.nama_ekspedisi', 'laminasi.nama_laminasi', 'setting_order_ne.status')
+            , 'mesin_cetak.nama_mesin_cetak', 'laminasi.nama_laminasi', 'setting_order_ne.status')
         .join('akun', 'data_order_non_ecom.id_akun', 'akun.id_akun')
         .join('bahan_cetak', 'data_order_non_ecom.id_bahan_cetak', 'bahan_cetak.id_bahan_cetak')
         .join('mesin_cetak', 'data_order_non_ecom.id_mesin_cetak', 'mesin_cetak.id_mesin_cetak')
-        .join('ekspedisi', 'data_order_non_ecom.id_ekspedisi', 'ekspedisi.id_ekspedisi')
         .join('laminasi', 'data_order_non_ecom.id_laminasi', 'laminasi.id_laminasi')
         .join('setting_order_ne', 'data_order_non_ecom.id_order_ne', '=', 'setting_order_ne.id_order_ne')
         .where('data_order_non_ecom.id_akun', 'LIKE', id_akun)
@@ -225,11 +224,10 @@ router.get('/orderNeAllByBulanIniFE/:idAkun/:forTgl', (req, res) => {
     // Mengambil data admin dari database
     db('data_order_non_ecom')
         .select('data_order_non_ecom.*', 'akun.nama_akun', 'bahan_cetak.nama_bahan_cetak'
-            , 'mesin_cetak.nama_mesin_cetak', 'ekspedisi.nama_ekspedisi', 'laminasi.nama_laminasi', 'setting_order_ne.status')
+            , 'mesin_cetak.nama_mesin_cetak',  'laminasi.nama_laminasi', 'setting_order_ne.status')
         .join('akun', 'data_order_non_ecom.id_akun', 'akun.id_akun')
         .join('bahan_cetak', 'data_order_non_ecom.id_bahan_cetak', 'bahan_cetak.id_bahan_cetak')
         .join('mesin_cetak', 'data_order_non_ecom.id_mesin_cetak', 'mesin_cetak.id_mesin_cetak')
-        .join('ekspedisi', 'data_order_non_ecom.id_ekspedisi', 'ekspedisi.id_ekspedisi')
         .join('laminasi', 'data_order_non_ecom.id_laminasi', 'laminasi.id_laminasi')
         .join('setting_order_ne', 'data_order_non_ecom.id_order_ne', '=', 'setting_order_ne.id_order_ne')
         .where('data_order_non_ecom.id_akun', 'LIKE', id_akun)
@@ -259,11 +257,10 @@ router.get('/orderNe/unOkSettingByIdNe/:idNe', (req, res) => {
     const id_order_ne = req.params.idNe
     // // Mengambil data admin dari database
     db('data_order_non_ecom')
-        .select('data_order_non_ecom.*', 'akun.nama_akun', 'bahan_cetak.nama_bahan_cetak', 'mesin_cetak.nama_mesin_cetak', 'ekspedisi.nama_ekspedisi', 'laminasi.nama_laminasi')
+        .select('data_order_non_ecom.*', 'akun.nama_akun', 'bahan_cetak.nama_bahan_cetak', 'mesin_cetak.nama_mesin_cetak', 'laminasi.nama_laminasi')
         .join('akun', 'data_order_non_ecom.id_akun', 'akun.id_akun')
         .join('bahan_cetak', 'data_order_non_ecom.id_bahan_cetak', 'bahan_cetak.id_bahan_cetak')
         .join('mesin_cetak', 'data_order_non_ecom.id_mesin_cetak', 'mesin_cetak.id_mesin_cetak')
-        .join('ekspedisi', 'data_order_non_ecom.id_ekspedisi', 'ekspedisi.id_ekspedisi')
         .join('laminasi', 'data_order_non_ecom.id_laminasi', 'laminasi.id_laminasi')
 
         // .where('data_order_ecom.id_akun', 'LIKE', id_akun)
@@ -294,7 +291,7 @@ router.put('/editOrderNe/unOkSettingByIdorder/:idNe', async (req, res) => {
     // const Eid_akun = req.params.idAkun;
     const Eid_order_ne = req.params.idNe;
     const ColumnToEdit = ['id_order_ne', 'id_akun', 'nama_customer', 'order_time', 'no_sc', 'warna', 'id_bahan_cetak', 'id_mesin_cetak', 
-        'id_laminasi', 'lebar_bahan', 'panjang_bahan', 'qty_order', 'finishing', 'note', 'key', 'time', 'id_ekspedisi'];
+        'id_laminasi', 'lebar_bahan', 'panjang_bahan', 'qty_order', 'finishing', 'note', 'key', 'time'];
 
 
     try {

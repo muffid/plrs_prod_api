@@ -59,6 +59,10 @@ router.post('/newEcom', async (req, res) => {
             .andWhere('return_order', 'Y')
             .first();
 
+
+            // tanggal order
+            // nama pembeli
+
             if (!ceknoorder) {
 
                 if (!ceksku) {
