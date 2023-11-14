@@ -276,7 +276,7 @@ router.get('/byBulan/Tuntas/:forTgl', async (req, res) => {
 })
 
 
-router.get('/ByBulanIniTuntas/', async (req, res) => {
+router.get('/ByBulanIniTuntas', async (req, res) => {
     const tglSaatIni = new Date();
     // const hari = String(tglSaatIni.getDate()).padStart(2, '0');
     const bulan = String(tglSaatIni.getMonth() + 1).padStart(2, '0')
