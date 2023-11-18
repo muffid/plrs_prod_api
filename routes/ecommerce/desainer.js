@@ -63,7 +63,7 @@ router.post('/newEcom', async (req, res) => {
 
             //no order
             const ceknoorder = await trx('data_order_ecom')
-                .limit(1000)
+                .limit(100)
                 .where('nomor_order', nomor_order)
                 .first();
 
