@@ -475,7 +475,7 @@ router.put('/returnOrder/:idEcom', async (req, res) => {
             .where('id_order_ecom', Eid_order_ecom)
             .update(updateData);
 
-        res.json({ message: 'Data Order Masuk Return' })
+        res.json({ message: 'ok' })
 
     } catch (error) {
 
