@@ -273,6 +273,7 @@ router.get('/orderEcomAllByBulanIni/:idAkun', (req, res) => {
 
 
 
+
 // Operasi READ: Rute untuk Mendapatkan semua data Orderan Ecommerse by id_akun
 // dengan kondisi yang di dapat adalah buan dan tahun sesuai inputan dari Frontend
 router.get('/orderEcomAllByBulanIniFE/:idAkun/:forTgl', (req, res) => {
@@ -554,4 +555,49 @@ const getMonitorData = async (req, res) => {
 }
 
 router.get('/AllReturn',getMonitorData)
+
+
+router.put('/returnOrderAktif/:idEcom', async (req, res) => {
+    // const Eid_akun = req.params.idAkun;
+    const Eid_order_ecom = req.params.idEcom;
+    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'order_time', 'no_sc','id_akun_ecom', 'nama_akun_order', 'nama_penerima',
+        'nomor_order', 'sku', 'warna', 'id_bahan_cetak', 'id_mesin_cetak', 'id_laminasi', 'lebar_bahan',
+        'panjang_bahan', 'qty_order', 'note', 'key', 'time', 'id_ekspedisi', 'return_order','resi'];
+
+
+    try {
+        const tuntas = await db('data_order_ecom')
+            .where('data_order_ecom.return_order', 'LIKE','Y')
+            .first();
+
+        if (!tuntas) {
+            return res.status(404).json({ message: 'Data Belum Tuntas' })
+
+        }
+
+        const updateData = {};
+        ColumnToEdit.forEach(column => {
+            if (req.body[column]) {
+                updateData[column] = req.body[column]
+
+            }
+        });
+        // updateData['return_order'] = 'Y';
+        await db('data_order_ecom')
+            .where('id_order_ecom', Eid_order_ecom)
+            .update(updateData);
+
+        res.json({ message: 'ok' })
+
+    } catch (error) {
+
+        console.log(error);
+        res.status(500).json({ error: 'An error occurred' });
+    }
+
+
+});
+
+
+
 module.exports = router;
