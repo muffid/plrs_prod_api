@@ -51,26 +51,25 @@ router.post('/newEcom', async (req, res) => {
 
               // tanggal order
               const cekTglOrder = await trx('data_order_ecom')
-              .limit(100)
+              .limit(200)
               .where('order_time', order_time)
               .first();
 
               // nama pembeli
             const cekAkunOrder = await trx('data_order_ecom')
-            .limit(100)
+            .limit(200)
             .where('nama_akun_order', nama_akun_order)
             .first();
 
             //no order
             const ceknoorder = await trx('data_order_ecom')
-                .limit(100)
+                .limit(200)
                 .where('nomor_order', nomor_order)
                 .first();
 
             //no sku
             const cekSKU = await trx('data_order_ecom')
             .where('sku', sku)
-            .andWhere('return_order', 'Y')
             .first();
            
             // warna
@@ -78,64 +77,45 @@ router.post('/newEcom', async (req, res) => {
             .where('warna', warna)
             .first();
 
-            if (!cekTglOrder) {                
-                if (!cekAkunOrder) {
-                    if (!ceknoorder) {
-                        if (!cekSKU) {
-                            if (!cekWarna) {
-                                
-                            await trx('data_order_ecom').insert({
-                                id_order_ecom, id_akun, order_time, no_urut: newNoUrut, no_sc:no_sc+"-"+karakter, id_akun_ecom,
-                                nama_akun_order, nama_penerima, nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, 
-                                id_laminasi, lebar_bahan, panjang_bahan, qty_order, note, key, time, id_ekspedisi, return_order, resi
-                            });
-            
-                            const gen = generateRandomString(10);
-            
-                            await trx('setting_order').insert({
-                                id_setting: gen,
-                                id_akun: "",
-                                id_order: id_order_ecom,
-                                status: "Belum Setting",
-                                time_start: "",
-                                time_finish: ""
-                            });
-            
-                            const gen2 = generateRandomString(10);
-            
-                            await trx('finish_order').insert({
-                                id_finish: gen2,
-                                id_akun: "",
-                                id_order: id_order_ecom,
-                                status: "Belum Cetak",
-                                time: ""
-                            });
-            
-                            // Kode berikut mengirim respons 200 (Created) untuk menunjukkan data berhasil ditambahkan
-                            res.status(200).json({ message: 'Data inserted successfully' });
-                            
-                            }else{
-                                // Jika data ditemukan, kirim respons 409 (Conflict) bahwa data sudah ada
-                                res.status(409).json({ error: 'Warna Sama' });
-                            }
-                        }else{
-                            res.status(409).json({ error: 'SKU sudah ada' });
-                        }       
-                       
-                    } else {
-                        // Jika data ditemukan, kirim respons 409 (Conflict) bahwa data sudah ada
-                        res.status(409).json({ error: 'Nomer Order Sama' });
-                    }
-                }else{
-                    // Jika data ditemukan, kirim respons 409 (Conflict) bahwa data sudah ada
-                res.status(409).json({ error: 'Akun Pengorder sama' });
-                }
+            console.log(cekTglOrder + cekAkunOrder + ceknoorder + cekSKU + cekWarna);
 
+            if(cekTglOrder && cekAkunOrder && ceknoorder && cekSKU && cekWarna){
+                //kalau nilainya TRUE semua, maka data adalah data duplikat (tidak valid)
+                 res.status(409).json({ message: 'Data Sudah Diinput' });
             }else{
-                // Jika data ditemukan, kirim respons 409 (Conflict) bahwa data sudah ada
-                res.status(409).json({ error: 'Tanggal Sama' });
+                //kalau nilainya FALSE berarti salah satu ada yang beda, yang mana artinya data tersebut valid
+                 await trx('data_order_ecom').insert({
+                    id_order_ecom, id_akun, order_time, no_urut: newNoUrut, no_sc:no_sc+"-"+karakter, id_akun_ecom,
+                    nama_akun_order, nama_penerima, nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, 
+                    id_laminasi, lebar_bahan, panjang_bahan, qty_order, note, key, time, id_ekspedisi, return_order, resi
+                });
+            
+                const gen = generateRandomString(10);
+            
+                await trx('setting_order').insert({
+                    id_setting: gen,
+                    id_akun: "",
+                    id_order: id_order_ecom,
+                    status: "Belum Setting",
+                    time_start: "",
+                    time_finish: ""
+                });
+            
+                const gen2 = generateRandomString(10);
+            
+                await trx('finish_order').insert({
+                    id_finish: gen2,
+                    id_akun: "",
+                    id_order: id_order_ecom,
+                    status: "Belum Cetak",
+                    time: ""
+                });
+            
+                // Kode berikut mengirim respons 200 (Created) untuk menunjukkan data berhasil ditambahkan
+                res.status(200).json({ message: 'Data inserted successfully' });
             }
-           
+
+              
         });
     } catch (error) {
         console.log(error);
