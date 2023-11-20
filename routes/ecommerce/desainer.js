@@ -468,6 +468,15 @@ router.put('/returnOrder/:idEcom', async (req, res) => {
 });
  
 
+const getSkuAndWarna = async (req, res) => {
+    db.select('data_order_ecom.sku','data_order_ecom.warna')
+    .from('data_order_ecom')
+    .where('data_order_ecom.return_order', 'LIKE', 'Y')
+    .then((data) => {
+         res.json(data)
+    })
+}
+
 const getMonitorData = async (req, res) => {
     db.select('data_order_ecom.*', 'akun.nama_akun AS nama_desainer','bahan_cetak.nama_bahan_cetak'
     , 'mesin_cetak.nama_mesin_cetak', 'akun_ecom.nama_akun_ecom'
@@ -535,6 +544,7 @@ const getMonitorData = async (req, res) => {
 }
 
 router.get('/AllReturn',getMonitorData)
+router.get('/skuAndWarnaReturn',getSkuAndWarna)
 
 
 router.put('/returnOrderAktif/:idEcom', async (req, res) => {
