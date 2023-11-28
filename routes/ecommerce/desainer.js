@@ -643,7 +643,7 @@ router.put('/returnOrderAktif/:idEcom', async (req, res) => {
 
             }
         });
-        // updateData['return_order'] = 'Y';
+        updateData['return_order'] = '-';
         await db('data_order_ecom')
             .where('id_order_ecom', Eid_order_ecom)
             .update(updateData);
