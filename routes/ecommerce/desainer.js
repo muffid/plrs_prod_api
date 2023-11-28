@@ -621,7 +621,7 @@ router.get('/barangReturn/:Sku/:Warna', async(req, res)=>{
 router.put('/returnOrderAktif/:idEcom', async (req, res) => {
     // const Eid_akun = req.params.idAkun;
     const Eid_order_ecom = req.params.idEcom;
-    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'order_time', 'no_sc','id_akun_ecom', 'nama_akun_order', 'nama_penerima',
+    const ColumnToEdit = ['id_order_ecom', 'order_time','id_akun_ecom', 'nama_akun_order', 'nama_penerima',
         'nomor_order', 'note', 'key', 'time', 'id_ekspedisi', 'return_order','resi'];
 
 
