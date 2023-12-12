@@ -451,7 +451,7 @@ router.put('/returnOrder/:idEcom', async (req, res) => {
 
             }
         });
-        updateData['return_order'] = 'Y';
+        // updateData['return_order'] = 'Y';
         await db('data_order_ecom')
             .where('id_order_ecom', Eid_order_ecom)
             .update(updateData);
@@ -618,44 +618,95 @@ router.get('/barangReturn/:Sku/:Warna', async(req, res)=>{
 })
 
 
-router.put('/returnOrderAktif/:idEcom', async (req, res) => {
-    // const Eid_akun = req.params.idAkun;
-    const Eid_order_ecom = req.params.idEcom;
-    const ColumnToEdit = ['id_order_ecom', 'order_time','id_akun_ecom', 'nama_akun_order', 'nama_penerima',
-        'nomor_order', 'note', 'key', 'time', 'id_ekspedisi', 'return_order','resi'];
+// router.put('/returnOrderAktif/:idEcom', async (req, res) => {
+//     // const Eid_akun = req.params.idAkun;
+//     const Eid_order_ecom = req.params.idEcom;
+//     const ColumnToEdit = ['id_order_ecom', 'order_time','id_akun_ecom', 'nama_akun_order', 'nama_penerima',
+//         'nomor_order', 'note', 'key', 'time', 'id_ekspedisi', 'return_order','resi'];
 
+
+//     try {
+//         const tuntas = await db('data_order_ecom')
+//             .where('data_order_ecom.return_order', 'LIKE','Y')
+//             .first();
+
+//         if (!tuntas) {
+//             return res.status(404).json({ message: 'Data Belum Tuntas' })
+
+//         }
+
+//         const updateData = {};
+//         ColumnToEdit.forEach(column => {
+//             if (req.body[column]) {
+//                 updateData[column] = req.body[column]
+
+//             }
+//         });
+//         updateData['return_order'] = '-';
+//         await db('data_order_ecom')
+//             .where('id_order_ecom', Eid_order_ecom)
+//             .update(updateData);
+
+//         res.json({ message: 'ok' })
+
+//         await trx('data_return').insert({
+//             id_data_retun: "tes",            
+//             id_order: id_order_ecom
+//         });
+    
+//         // Kode berikut mengirim respons 200 (Created) untuk menunjukkan data berhasil ditambahkan
+//         res.status(200).json({ message: 'Data inserted successfully' });
+
+//     } catch (error) {
+
+//         console.log(error);
+//         res.status(500).json({ error: 'An error occurred' });
+//     }
+
+
+// });
+router.put('/returnOrderAktif/:idEcom', async (req, res) => {
+    const Eid_order_ecom = req.params.idEcom;
+    const ColumnToEdit = ['id_order_ecom', 'order_time', 'id_akun_ecom', 'nama_akun_order', 'nama_penerima',
+        'nomor_order', 'note', 'key', 'time', 'id_ekspedisi', 'return_order', 'resi'];
+
+    const trx = await db.transaction();
 
     try {
         const tuntas = await db('data_order_ecom')
-            .where('data_order_ecom.return_order', 'LIKE','Y')
+            .where('data_order_ecom.return_order', 'LIKE', 'Y')
+            .andWhere('data_order_ecom.qty_order', '!=', "0")
             .first();
 
         if (!tuntas) {
-            return res.status(404).json({ message: 'Data Belum Tuntas' })
-
+            await trx.rollback();
+            return res.status(404).json({ message: 'Data Belum Tuntas' });
         }
 
         const updateData = {};
         ColumnToEdit.forEach(column => {
             if (req.body[column]) {
-                updateData[column] = req.body[column]
-
+                updateData[column] = req.body[column];
             }
         });
-        updateData['return_order'] = '-';
+        updateData['qty_order'] = '0';
         await db('data_order_ecom')
             .where('id_order_ecom', Eid_order_ecom)
             .update(updateData);
 
-        res.json({ message: 'ok' })
+        await trx('data_return').insert({
+            id_data_return: "tes",
+            id_order_ecom: Eid_order_ecom
+        });
 
-    } catch (error) {
+        await trx.commit();
 
+        res.status(200).json({ message: 'Data updated and inserted successfully' });
+    } catch (error) {    
         console.log(error);
+        await trx.rollback();
         res.status(500).json({ error: 'An error occurred' });
     }
-
-
 });
 
 
