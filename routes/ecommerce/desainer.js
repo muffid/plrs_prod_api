@@ -27,7 +27,7 @@ router.post('/newEcom', async (req, res) => {
     const {
         id_order_ecom, id_akun, order_time, no_sc, id_akun_ecom, nama_akun_order, nama_penerima,
         nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, id_laminasi, lebar_bahan, panjang_bahan,
-        qty_order, note, key, time,  id_ekspedisi, return_order, resi
+        qty_order, qty_return, note, key, time,  id_ekspedisi, return_order, resi
     } = req.body;
 
     const currentDate = moment().format('YYYY-MM-DD');
@@ -87,7 +87,7 @@ router.post('/newEcom', async (req, res) => {
                  await trx('data_order_ecom').insert({
                     id_order_ecom, id_akun, order_time, no_urut: newNoUrut, no_sc:no_sc+"-"+karakter, id_akun_ecom,
                     nama_akun_order, nama_penerima, nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, 
-                    id_laminasi, lebar_bahan, panjang_bahan, qty_order, note, key, time, id_ekspedisi, return_order, resi
+                    id_laminasi, lebar_bahan, panjang_bahan, qty_order, qty_return, note, key, time, id_ekspedisi, return_order, resi
                 });
             
                 const gen = generateRandomString(10);
@@ -346,7 +346,7 @@ router.put('/editOrderEcom/unOkSettingByIdorder/:idEcom', async (req, res) => {
     const Eid_order_ecom = req.params.idEcom;
     const ColumnToEdit = ['id_order_ecom', 'id_akun', 'order_time', 'no_sc','id_akun_ecom', 'nama_akun_order', 'nama_penerima',
         'nomor_order', 'sku', 'warna', 'id_bahan_cetak', 'id_mesin_cetak', 'id_laminasi', 'lebar_bahan',
-        'panjang_bahan', 'qty_order', 'note', 'key', 'time', 'id_ekspedisi', 'return_order','resi'];
+        'panjang_bahan', 'qty_order', 'qty_return','note', 'key', 'time', 'id_ekspedisi', 'return_order','resi'];
 
 
     try {
@@ -425,12 +425,13 @@ router.delete('/deleteOrderEcom/unOkSettingByIdorder/:idEcom', async (req, res) 
 });
 
 
+//mengedit / return barang yang sudah diterima pembeli ke sistem dengan menentukan barang (rusak / masih layak dijual, dan jumlah yang dikembalikan berapa)
 router.put('/returnOrder/:idEcom', async (req, res) => {
-    // const Eid_akun = req.params.idAkun;
+    // const RKembali = req.params.kembali;
     const Eid_order_ecom = req.params.idEcom;
     const ColumnToEdit = ['id_order_ecom', 'id_akun', 'order_time', 'no_sc','id_akun_ecom', 'nama_akun_order', 'nama_penerima',
         'nomor_order', 'sku', 'warna', 'id_bahan_cetak', 'id_mesin_cetak', 'id_laminasi', 'lebar_bahan',
-        'panjang_bahan', 'qty_order', 'note', 'key', 'time', 'id_ekspedisi', 'return_order','resi'];
+        'panjang_bahan', 'qty_order', 'qty_return', 'note', 'key', 'time', 'id_ekspedisi', 'return_order','resi'];
 
 
     try {
@@ -451,7 +452,16 @@ router.put('/returnOrder/:idEcom', async (req, res) => {
 
             }
         });
-        // updateData['return_order'] = 'Y';
+        
+        const qty_return = parseInt(req.body.qty_return, 10);
+        const qty = await db('data_order_ecom')
+        .select('qty_order')
+        .where({'data_order_ecom.id_order_ecom': Eid_order_ecom})
+        .first();
+
+        // console.log(qty)
+        
+        updateData['qty_return'] = parseInt(qty.qty_order, 10) - qty_return;
         await db('data_order_ecom')
             .where('id_order_ecom', Eid_order_ecom)
             .update(updateData);
@@ -668,19 +678,22 @@ router.get('/barangReturn/:Sku/:Warna', async(req, res)=>{
 router.put('/returnOrderAktif/:idEcom', async (req, res) => {
     const Eid_order_ecom = req.params.idEcom;
     const ColumnToEdit = ['id_order_ecom', 'order_time', 'id_akun_ecom', 'nama_akun_order', 'nama_penerima',
-        'nomor_order', 'note', 'key', 'time', 'id_ekspedisi', 'return_order', 'resi'];
+        'nomor_order', 'qty_return', 'note', 'key', 'time', 'id_ekspedisi', 'return_order', 'resi'];
 
     const trx = await db.transaction();
 
     try {
         const tuntas = await db('data_order_ecom')
-            .where('data_order_ecom.return_order', 'LIKE', 'Y')
-            .andWhere('data_order_ecom.qty_order', '!=', "0")
+            .where('data_order_ecom.return_order', 'LIKE', 'Y' )
+            .andWhere('data_order_ecom.qty_return', '!=', "0")
             .first();
 
         if (!tuntas) {
+            //cek jumlah retrunan yang ada dan kurangi dan update retrun yang ada pada tabel data_order_ecom 
+            //masukkan data retrun yang sudah di eksekusi pada tabel data_retrun dengan updaten data baru yang mengacu pada tabel data_order_ecom
+            //apakah dari return ada kemungkinan return lagi..?
             await trx.rollback();
-            return res.status(404).json({ message: 'Data Belum Tuntas' });
+            return res.status(404).json({ message: 'Tidak ada Barang Return' });
         }
 
         const updateData = {};
@@ -689,14 +702,39 @@ router.put('/returnOrderAktif/:idEcom', async (req, res) => {
                 updateData[column] = req.body[column];
             }
         });
-        updateData['qty_order'] = '0';
+        const genR = generateRandomString(10);
+        const inputQty = parseInt(req.body.inputQty, 10);
+        const qty = await db('data_order_ecom')
+        .select('qty_return')
+        .where({'data_order_ecom.id_order_ecom': Eid_order_ecom})
+        .first();
+
+        // console.log(qty)
+        
+        updateData['qty_return'] = parseInt(qty.qty_return, 10) - inputQty;
+
+        // updateData['qty_return'] = '0';
         await db('data_order_ecom')
             .where('id_order_ecom', Eid_order_ecom)
             .update(updateData);
 
+            const {order_time, id_akun_ecom, nama_akun_order, nama_penerima, nomor_order, note, 
+                    key, time, id_ekspedisi, return_order, resi}=req.body;
         await trx('data_return').insert({
-            id_data_return: "tes",
-            id_order_ecom: Eid_order_ecom
+            id_data_return: genR,
+            id_order_ecom : Eid_order_ecom, 
+            order_time , 
+            id_akun_ecom, 
+            nama_akun_order,
+            nama_penerima,
+            nomor_order, 
+            qty_return: inputQty, 
+            note, 
+            key, 
+            time, 
+            id_ekspedisi,
+            return_order, 
+            resi
         });
 
         await trx.commit();
