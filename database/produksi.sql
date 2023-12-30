@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 17 Des 2023 pada 14.34
+-- Waktu pembuatan: 30 Des 2023 pada 14.58
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -122,12 +122,11 @@ CREATE TABLE `data_order_ecom` (
 --
 
 INSERT INTO `data_order_ecom` (`id_order_ecom`, `id_akun`, `order_time`, `no_urut`, `no_sc`, `id_akun_ecom`, `nama_akun_order`, `nama_penerima`, `nomor_order`, `sku`, `warna`, `id_bahan_cetak`, `id_mesin_cetak`, `id_laminasi`, `lebar_bahan`, `panjang_bahan`, `qty_order`, `qty_return`, `note`, `key`, `time`, `id_ekspedisi`, `return_order`, `resi`) VALUES
-('0jbjP5mdiE', '1b', 'gfy', 2, 'undefined-hak', '1e', 'tol', 'iuu', '34567', '67890', 'cv', '1bh', '1m', '1l', '128', '34', '6', '-16', '-', '-', '2023-11-12 21:18', '1e', 'R', '3456789'),
-('e2', '1b', '04-09-2023', 1, '3-hak', '1e', 'lia', 'kim', '939', '2634', 'Merah', '1bh', '1m', '1l', '267', '34', '1', '', 'segera', '', '2023-11-02', '1e', '', ''),
-('e7', '1b', '04-09-2023', 1, '3-hak', '1e', 'lia', 'kim', '939', '2634', 'Merah', '1bh', '1m', '1l', '267', '34', '1', '', 'segera', '', '2023-11-02', '1e', '', ''),
-('EZa1pJWHIL', '1b', '2023-11-12 12:00', 1, 'undefined-hak', '1e', 'sopy', 'diah', '567890398', '827fhsd', 'kuning', '1bh', '1m', '1l', '128', '126', '3', '', '-', '-', '2023-11-12 20:58', '1e', 'Y', '2456768776'),
-('i5He97dXhf', '1b', '2023-11-12 12:00', 3, 'undefined-hak', '1e', 'dws', 'ss', '121', 'UT7879', 'HGJ', '1bh', '1m', '1l', '128', '7', '8', '', '-', '-', '2023-11-12 22:18', '1e', '-', '67890'),
-('SSuc5QQLeu', '1b', '2023-11-12 11:00', 4, '12-hak', '1e', 'sofialajuba', 'yuhu', 'sarmen', '579', 'putih', '1bh', '1m', '1l', '128', '57', '6', '', '-', '-', '2023-11-12 22:21', '1e', '-', '3456890');
+('9QHziQxXtC', '1b', '2023-12-20 00:00', 3, '3-hak', '1e', 'adi', 'adi', '0976', '2342', 'hijau', '1bh', '1m', '1l', '128', '122', '1', '0', '-', '-', '2023-12-19 23:15', '1e', 'Y', '133'),
+('eSveBoWqNp', '1b', '', 1, '2-hak', '1e', '', '', '', '', '', '1bh', '1m', '1l', '', '', '1', '', '', '9QHziQxXtC', '', '1e', '', ''),
+('LnvkbgXh5n', '1b', '2023-12-20 00:00', 1, '1-hak', '1e', 'adi', 'adi', '0976', '4567', 'hijau', '1bh', '1m', '1l', '128', '124', '1', '', '-', '-', '2023-12-19 23:12', '1e', '-', '1337'),
+('MHTwe1HhxG', '1b', '2023-12-20 00:00', 2, '2-hak', '1e', 'adi', 'adi', '0976', '2343', 'putih', '1bh', '1m', '1l', '128', '234', '1', '', '-', '-', '2023-12-19 23:12', '1e', '-', '133'),
+('uo9', '1b', '04-09-2023', 1, '3-hak', '1e', 'lia', 'kim', '939', '0307', 'Kuning', '1bh', '1m', '1l', '267', '34', '1', '', 'segera', '', '', '1e', '', '');
 
 -- --------------------------------------------------------
 
@@ -161,36 +160,6 @@ CREATE TABLE `data_order_non_ecom` (
 
 INSERT INTO `data_order_non_ecom` (`id_order_ne`, `id_akun`, `nama_customer`, `order_time`, `no_urut`, `no_sc`, `warna`, `id_bahan_cetak`, `id_mesin_cetak`, `id_laminasi`, `lebar_bahan`, `panjang_bahan`, `qty_order`, `finishing`, `note`, `key`, `time`) VALUES
 ('r4', '1b', 'Hakim', '2023-11-30 04:00', '1', '1-hak', 'Hijau', '1bh', '1m', '1l', '128', '100', '1', 'hilang', 'cepat', '', '2023-10-31 20:43');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `data_return`
---
-
-CREATE TABLE `data_return` (
-  `id_data_return` varchar(225) NOT NULL,
-  `id_order_ecom` varchar(225) NOT NULL,
-  `order_time` varchar(225) NOT NULL,
-  `id_akun_ecom` varchar(225) NOT NULL,
-  `nama_akun_order` varchar(225) NOT NULL,
-  `nama_penerima` varchar(225) NOT NULL,
-  `nomor_order` varchar(225) NOT NULL,
-  `qty_return` varchar(225) NOT NULL,
-  `note` varchar(225) NOT NULL,
-  `key` varchar(225) NOT NULL,
-  `time` varchar(225) NOT NULL,
-  `id_ekspedisi` varchar(225) NOT NULL,
-  `return_order` varchar(225) NOT NULL,
-  `resi` varchar(225) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `data_return`
---
-
-INSERT INTO `data_return` (`id_data_return`, `id_order_ecom`, `order_time`, `id_akun_ecom`, `nama_akun_order`, `nama_penerima`, `nomor_order`, `qty_return`, `note`, `key`, `time`, `id_ekspedisi`, `return_order`, `resi`) VALUES
-('Zchtwajwzn', '0jbjP5mdiE', 'gfy', '', '', '', '', '2', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -229,12 +198,10 @@ CREATE TABLE `finish_order` (
 --
 
 INSERT INTO `finish_order` (`id_finish`, `id_akun`, `id_order`, `status`, `time`) VALUES
-('0jbjP5mdiE', '', '0jbjP5mdiE', 'Tuntas', '2023-11-12 22:59:05.699'),
-('5LxpBoBApK', '', 'e2', 'Belum Cetak', ''),
-('7KUBQ3PqRa', '', 'SSuc5QQLeu', 'Belum Cetak', ''),
-('BM6uJ0odQu', '', '0jbjP5mdiE', 'Belum Cetak', ''),
-('JIpdWFBz4l', '', 'i5He97dXhf', 'Belum Cetak', ''),
-('z4x91ud2qk', 't3', 'EZa1pJWHIL', 'Tuntas', '2023-11-12 20:59:49.382');
+('7KV5lMdtF8', '', 'MHTwe1HhxG', 'Belum Cetak', ''),
+('gfygoBGhvE', 't3', '9QHziQxXtC', 'Tuntas', '2023-12-30 13:51:23.380'),
+('LOoYhujjjk', '', 'LnvkbgXh5n', 'Belum Cetak', ''),
+('Okdg325AdH', '', 'uo9', 'Belum Cetak', '');
 
 -- --------------------------------------------------------
 
@@ -325,12 +292,10 @@ CREATE TABLE `setting_order` (
 --
 
 INSERT INTO `setting_order` (`id_setting`, `id_akun`, `id_order`, `status`, `time_start`, `time_finish`) VALUES
-('DI9YsVWR8h', '1s', '0jbjP5mdiE', 'Tuntas', '2023-11-12 21:18:51.362', '2023-11-12 22:59:05.699'),
-('p7TZcsAnJ2', '1s', 'EZa1pJWHIL', 'Tuntas', '2023-11-12 20:58:56.383', '2023-11-12 20:59:05.699'),
-('sTQvyGYVbu', '', 'e7', 'Belum Setting', '', ''),
-('UEBdgxFPgM', '', 'SSuc5QQLeu', 'Belum Setting', '', ''),
-('UYFnQHbcMh', '1s', 'i5He97dXhf', 'Setting Selesai', '2023-11-12 22:22:34.449', '2023-11-12 22:24:56.820'),
-('ZDau0wzUIS', '', 'e2', 'Belum Setting', '', '');
+('8p2nykwuzD', '', 'MHTwe1HhxG', 'Belum Setting', '', ''),
+('LgL2V982dK', '', 'uo9', 'Belum Setting', '', ''),
+('qoBHD9g1KV', '', 'LnvkbgXh5n', 'Belum Setting', '', ''),
+('wKrPPQk2hX', '1s', '9QHziQxXtC', 'Tuntas', '2023-12-30 13:48:59.673', '2023-12-30 13:50:15.593');
 
 -- --------------------------------------------------------
 
