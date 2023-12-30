@@ -20,6 +20,25 @@ function generateRandomString(length) {
 }
 
 
+async function dapatkanMaxNoUrut(db) {
+    const currentDate = moment().format('YYYY-MM-DD');
+    try {
+      const result = await db('data_order_ecom')
+        .whereRaw(`DATE_FORMAT(time, '%Y-%m-%d') = ?`, [currentDate])
+        .max('no_urut as maxNoUrut')
+        .first();
+  
+      const maxNoUrut = result ? result.maxNoUrut || 0 : 0;
+      const newNoUrut = maxNoUrut + 1;
+        // console.log(result)
+      return newNoUrut;
+    } catch (error) {
+      // Handle error jika diperlukan
+      console.error('Terjadi kesalahan:', error.message);
+      throw error;
+    }
+  }
+
 
 // MASTER DATA BAHAN CETAK
 // Operasi CREATE : Rute untuk menambahkan BAHAN CETAK baru verifyToken,
@@ -30,17 +49,19 @@ router.post('/newEcom', async (req, res) => {
         qty_order, qty_return, note, key, time,  id_ekspedisi, return_order, resi
     } = req.body;
 
-    const currentDate = moment().format('YYYY-MM-DD');
+    // const currentDate = moment().format('YYYY-MM-DD');
     // console.log(currentDate);
 
     try {
         await db.transaction(async (trx) => {
-            const result = await trx('data_order_ecom')
-                .whereRaw(`DATE_FORMAT(time, '%Y-%m-%d') = ?`, [currentDate])
-                .max('no_urut as maxNoUrut')
-                .first();
-            const maxNoUrut = result ? result.maxNoUrut || 0 : 0;
-            const newNoUrut = maxNoUrut + 1;
+            // const result = await trx('data_order_ecom')
+            //     .whereRaw(`DATE_FORMAT(time, '%Y-%m-%d') = ?`, [currentDate])
+            //     .max('no_urut as maxNoUrut')
+            //     .first();
+            // const maxNoUrut = result ? result.maxNoUrut || 0 : 0;
+            // const newNoUrut = maxNoUrut + 1;
+
+            const nomor = await dapatkanMaxNoUrut(db);
 
             const cariNama = await trx('akun')
                 .select('nama_akun')
@@ -85,7 +106,7 @@ router.post('/newEcom', async (req, res) => {
             }else{
                 //kalau nilainya FALSE berarti salah satu ada yang beda, yang mana artinya data tersebut valid
                  await trx('data_order_ecom').insert({
-                    id_order_ecom, id_akun, order_time, no_urut: newNoUrut, no_sc:no_sc+"-"+karakter, id_akun_ecom,
+                    id_order_ecom, id_akun, order_time, no_urut: nomor, no_sc:no_sc+"-"+karakter, id_akun_ecom,
                     nama_akun_order, nama_penerima, nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, 
                     id_laminasi, lebar_bahan, panjang_bahan, qty_order, qty_return, note, key, time, id_ekspedisi, return_order, resi
                 });
@@ -453,15 +474,16 @@ router.put('/returnOrder/:idEcom', async (req, res) => {
             }
         });
         
-        const qty_return = parseInt(req.body.qty_return, 10);
+        // const qty_return = parseInt(req.body.qty_return, 10);
         const qty = await db('data_order_ecom')
         .select('qty_order')
-        .where({'data_order_ecom.id_order_ecom': Eid_order_ecom})
+        .where('data_order_ecom.id_order_ecom', Eid_order_ecom)
         .first();
 
         // console.log(qty)
         
-        updateData['qty_return'] = parseInt(qty.qty_order, 10) - qty_return;
+        updateData['qty_return'] = parseInt(qty.qty_order, 10);
+        updateData['return_order'] = "Y";
         await db('data_order_ecom')
             .where('id_order_ecom', Eid_order_ecom)
             .update(updateData);
@@ -477,6 +499,57 @@ router.put('/returnOrder/:idEcom', async (req, res) => {
 
 });
  
+router.put('/returnOrderRusak/:idEcom', async (req, res) => {
+    // const RKembali = req.params.kembali;
+    const Eid_order_ecom = req.params.idEcom;
+    const ColumnToEdit = ['id_order_ecom', 'id_akun', 'order_time', 'no_sc','id_akun_ecom', 'nama_akun_order', 'nama_penerima',
+        'nomor_order', 'sku', 'warna', 'id_bahan_cetak', 'id_mesin_cetak', 'id_laminasi', 'lebar_bahan',
+        'panjang_bahan', 'qty_order', 'qty_return', 'note', 'key', 'time', 'id_ekspedisi', 'return_order','resi'];
+
+
+    try {
+        const tuntas = await db('data_order_ecom')
+            .join('finish_order', 'data_order_ecom.id_order_ecom', '=', 'finish_order.id_order')
+            .where({ 'data_order_ecom.id_order_ecom': Eid_order_ecom, 'finish_order.status': 'Tuntas' })
+            .first();
+
+        if (!tuntas) {
+            return res.status(404).json({ message: 'Data Belum Tuntas' })
+
+        }
+
+        const updateData = {};
+        ColumnToEdit.forEach(column => {
+            if (req.body[column]) {
+                updateData[column] = req.body[column]
+
+            }
+        });
+        
+        // const qty_return = parseInt(req.body.qty_return, 10);
+        const qty = await db('data_order_ecom')
+        .select('qty_order')
+        .where('data_order_ecom.id_order_ecom', Eid_order_ecom)
+        .first();
+
+        // console.log(qty)
+        
+        updateData['qty_return'] = parseInt(qty.qty_order, 10);
+        updateData['return_order'] = "R";
+        await db('data_order_ecom')
+            .where('id_order_ecom', Eid_order_ecom)
+            .update(updateData);
+
+        res.json({ message: 'ok' })
+
+    } catch (error) {
+
+        console.log(error);
+        res.status(500).json({ error: 'An error occurred' });
+    }
+
+
+});
 
 const getSkuAndWarna = async (req, res) => {
     db.select('data_order_ecom.sku','data_order_ecom.warna')
@@ -554,6 +627,8 @@ const getMonitorData = async (req, res) => {
     })
 }
 
+
+//Belum Valid
 router.get('/AllReturn',getMonitorData)
 
 // get barang return by SKU and Warna
@@ -675,8 +750,9 @@ router.get('/barangReturn/:Sku/:Warna', async(req, res)=>{
 
 
 // });
-router.put('/returnOrderAktif/:idEcom', async (req, res) => {
+router.put('/returnOrderAktif/:idEcom/:idAkun', async (req, res) => {
     const Eid_order_ecom = req.params.idEcom;
+    const IdAkun = req.params.idAkun;
     const ColumnToEdit = ['id_order_ecom', 'order_time', 'id_akun_ecom', 'nama_akun_order', 'nama_penerima',
         'nomor_order', 'qty_return', 'note', 'key', 'time', 'id_ekspedisi', 'return_order', 'resi'];
 
@@ -706,7 +782,7 @@ router.put('/returnOrderAktif/:idEcom', async (req, res) => {
         const inputQty = parseInt(req.body.inputQty, 10);
         const qty = await db('data_order_ecom')
         .select('qty_return')
-        .where({'data_order_ecom.id_order_ecom': Eid_order_ecom})
+        .where('data_order_ecom.id_order_ecom', Eid_order_ecom)
         .first();
 
         // console.log(qty)
@@ -718,28 +794,28 @@ router.put('/returnOrderAktif/:idEcom', async (req, res) => {
             .where('id_order_ecom', Eid_order_ecom)
             .update(updateData);
 
-            const {order_time, id_akun_ecom, nama_akun_order, nama_penerima, nomor_order, note, 
-                    key, time, id_ekspedisi, return_order, resi}=req.body;
-        await trx('data_return').insert({
-            id_data_return: genR,
-            id_order_ecom : Eid_order_ecom, 
-            order_time , 
-            id_akun_ecom, 
-            nama_akun_order,
-            nama_penerima,
-            nomor_order, 
-            qty_return: inputQty, 
-            note, 
-            key, 
-            time, 
-            id_ekspedisi,
-            return_order, 
-            resi
+            const { order_time, no_sc, id_akun_ecom, nama_akun_order, nama_penerima,
+                nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, id_laminasi, lebar_bahan, panjang_bahan,
+                 qty_return, note,  time,  id_ekspedisi, return_order, resi}=req.body;
+
+            const nomor = await dapatkanMaxNoUrut(db);
+            const cariNama = await trx('akun')
+            .select('nama_akun')
+            .where('id_akun', IdAkun)
+            .first();
+        const namaAkun = cariNama.nama_akun;
+        const karakter = namaAkun.slice(0, 3);
+
+        await trx('data_order_ecom').insert({
+            
+            id_order_ecom :genR, id_akun:IdAkun, order_time, no_urut: nomor, no_sc:no_sc+"-"+karakter, id_akun_ecom,
+                    nama_akun_order, nama_penerima, nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, 
+                    id_laminasi, lebar_bahan, panjang_bahan, qty_order:inputQty, qty_return, note, key:Eid_order_ecom, time, id_ekspedisi, return_order, resi
         });
 
         await trx.commit();
 
-        res.status(200).json({ message: 'Data updated and inserted successfully' });
+        res.status(200).json({ message: 'ok' });
     } catch (error) {    
         console.log(error);
         await trx.rollback();
