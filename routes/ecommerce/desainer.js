@@ -750,7 +750,10 @@ router.get('/barangReturn/:Sku/:Warna', async(req, res)=>{
 
 
 // });
-router.put('/returnOrderAktif/:idEcom/:idAkun', async (req, res) => {
+// Operasi READ: Rute untuk Mendapatkan semua data Orderan Ecommerse
+
+
+router.put('/recycle/:idEcom/:idAkun', async (req, res) => {
     const Eid_order_ecom = req.params.idEcom;
     const IdAkun = req.params.idAkun;
     const ColumnToEdit = ['id_order_ecom', 'order_time', 'id_akun_ecom', 'nama_akun_order', 'nama_penerima',
@@ -822,6 +825,7 @@ router.put('/returnOrderAktif/:idEcom/:idAkun', async (req, res) => {
         res.status(500).json({ error: 'An error occurred' });
     }
 });
+
 
 
 
