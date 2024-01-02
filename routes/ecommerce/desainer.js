@@ -798,23 +798,57 @@ router.put('/recycle/:idEcom/:idAkun', async (req, res) => {
             .update(updateData);
 
             const { order_time, no_sc, id_akun_ecom, nama_akun_order, nama_penerima,
-                nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, id_laminasi, lebar_bahan, panjang_bahan,
-                 qty_return, note,  time,  id_ekspedisi, return_order, resi}=req.body;
+                nomor_order, sku, warna,  lebar_bahan, panjang_bahan,
+                 qty_return, note,  time,   return_order, resi}=req.body;
 
             const nomor = await dapatkanMaxNoUrut(db);
             const cariNama = await trx('akun')
-            .select('nama_akun')
-            .where('id_akun', IdAkun)
-            .first();
+                            .select('nama_akun')
+                            .where('id_akun', IdAkun)
+                            .first();
         const namaAkun = cariNama.nama_akun;
         const karakter = namaAkun.slice(0, 3);
 
-        await trx('data_order_ecom').insert({
+        // await trx('data_order_ecom').insert({
             
-            id_order_ecom :genR, id_akun:IdAkun, order_time, no_urut: nomor, no_sc:no_sc+"-"+karakter, id_akun_ecom,
-                    nama_akun_order, nama_penerima, nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, 
-                    id_laminasi, lebar_bahan, panjang_bahan, qty_order:inputQty, qty_return, note, key:Eid_order_ecom, time, id_ekspedisi, return_order, resi
-        });
+        //     id_order_ecom :genR, id_akun:IdAkun, order_time, no_urut: nomor, no_sc:no_sc+"-"+karakter, id_akun_ecom,
+        //             nama_akun_order, nama_penerima, nomor_order, sku, warna, id_bahan_cetak, id_mesin_cetak, 
+        //             id_laminasi, lebar_bahan, panjang_bahan, qty_order:inputQty, qty_return, note, key:Eid_order_ecom, time, id_ekspedisi, return_order, resi
+        // });
+
+        const previousData = await db('data_order_ecom')
+    .select('id_bahan_cetak', 'id_mesin_cetak', 'id_laminasi', 'id_ekspedisi')
+    .where('data_order_ecom.id_order_ecom', Eid_order_ecom)
+    .first();
+
+const {  id_bahan_cetak, id_mesin_cetak, id_laminasi, id_ekspedisi } = previousData;
+
+await trx('data_order_ecom').insert({
+    id_order_ecom: genR,
+    id_akun: IdAkun,
+    order_time,
+    no_urut: nomor,
+    no_sc: no_sc + "-" + karakter,
+    id_akun_ecom,
+    nama_akun_order,
+    nama_penerima,
+    nomor_order,
+    sku,
+    warna,
+    id_bahan_cetak,
+    id_mesin_cetak,
+    id_laminasi,
+    lebar_bahan,
+    panjang_bahan,
+    qty_order: inputQty,
+    qty_return,
+    note,
+    key: Eid_order_ecom,
+    time,
+    id_ekspedisi,
+    return_order,
+    resi
+});
 
         await trx.commit();
 
