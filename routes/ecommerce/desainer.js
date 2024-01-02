@@ -776,6 +776,7 @@ router.put('/recycle/:idEcom/:idAkun', async (req, res) => {
         }
 
         const updateData = {};
+        
         ColumnToEdit.forEach(column => {
             if (req.body[column]) {
                 updateData[column] = req.body[column];
@@ -791,7 +792,7 @@ router.put('/recycle/:idEcom/:idAkun', async (req, res) => {
         // console.log(qty)
         
         updateData['qty_return'] = parseInt(qty.qty_return, 10) - inputQty;
-
+        updateData['return_order'] = "Y";
         // updateData['qty_return'] = '0';
         await db('data_order_ecom')
             .where('id_order_ecom', Eid_order_ecom)
