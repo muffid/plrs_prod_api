@@ -756,8 +756,7 @@ router.get('/barangReturn/:Sku/:Warna', async(req, res)=>{
 router.put('/recycle/:idEcom/:idAkun', async (req, res) => {
     const Eid_order_ecom = req.params.idEcom;
     const IdAkun = req.params.idAkun;
-    const ColumnToEdit = ['id_order_ecom', 'order_time', 'id_akun_ecom', 'nama_akun_order', 'nama_penerima',
-        'nomor_order', 'qty_return', 'note', 'key', 'time', 'id_ekspedisi', 'return_order', 'resi'];
+    const ColumnToEdit = ['qty_return', 'return_order'];
 
     const trx = await db.transaction();
 
