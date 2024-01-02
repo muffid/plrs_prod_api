@@ -555,6 +555,7 @@ const getSkuAndWarna = async (req, res) => {
     db.select('data_order_ecom.sku','data_order_ecom.warna')
     .from('data_order_ecom')
     .where('data_order_ecom.return_order', 'LIKE', 'Y')
+    .andWhere('data_order_ecom.qty_return','!=', '0')
     .then((data) => {
          res.json(data)
     })
@@ -567,6 +568,7 @@ const getMonitorData = async (req, res) => {
     , 'ekspedisi.nama_ekspedisi', 'laminasi.nama_laminasi', 'setting_order.status'
     ,'setting_order.time_start AS mulai_setting','setting_order.time_finish AS selesai_setting')
     .from('data_order_ecom').where('data_order_ecom.return_order', 'LIKE', 'Y')
+    .andWhere('data_order_ecom.qty_return','!=', '0')
     .join('setting_order', 'data_order_ecom.id_order_ecom', '=', 'setting_order.id_order')
     .join('bahan_cetak', 'data_order_ecom.id_bahan_cetak', 'bahan_cetak.id_bahan_cetak')
     .join('mesin_cetak', 'data_order_ecom.id_mesin_cetak', 'mesin_cetak.id_mesin_cetak')
@@ -628,7 +630,7 @@ const getMonitorData = async (req, res) => {
 }
 
 
-//Belum Valid
+
 router.get('/AllReturn',getMonitorData)
 
 // get barang return by SKU and Warna
