@@ -7,11 +7,12 @@ const dataUsers = require('./routes/lihatData')
 const dashboard = require('./routes/dashboard')
 const desainer = require('./routes/ecommerce/desainer')
 const setting = require('./routes/ecommerce/setting')
-const monitor = require('./routes/ecommerce/monitor')
 const print_operator = require('./routes/ecommerce/print_operator')
 const dataNonEcom = require('./routes/nonecom/dataCustomerNonEcom')
 const neDesainer = require('./routes/nonecom/desainer')
 const neSetting = require('./routes/nonecom/setting')
+const monitor = require('./routes/ecommerce/monitor')
+
 
 
 app.use(express.json()) // Middleware untuk mengurai body dalam format JSON

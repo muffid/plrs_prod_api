@@ -78,5 +78,40 @@ router.get('/monitor_order',getMonitorData)
 
 
 
+// lebar bahan yang di gunakan
+router.get('/total_panjang_bahan', (req, res) => {
+  // Mengambil data admin dari database
+
+  const { periode } = req.query;
+  const { idAkun } = req.query;
+  if (periode === 'keseluruhan') {
+    db.select('*')
+      .from('data_order_ecom')
+      .where('id_bahan_cetak', '=' , idAkun)
+                  .then((data) => {
+            // Konversi nilai varchar menjadi angka (tipe data numerik)
+            const numericValues = data.map(item => ({
+              lebar_bahan: parseFloat(item.lebar_bahan) || 0,
+              panjang_bahan: parseFloat(item.panjang_bahan) || 0,
+              qty_order: parseFloat(item.qty_order) || 0,
+            }));
+            console.log(numericValues);
+            // Hitung total panjang bahan
+            const totalPanjang = numericValues.reduce((acc, value) => {
+              const multi = (value.lebar_bahan * value.panjang_bahan * value.qty_order)/100;
+             const total =  acc + multi;
+              return(total);
+            }, 0);
+                     
+            res.json({ totalPanjang });
+      })
+      .catch((error) => {
+          console.log(error);
+          res.status(500).json({ error: 'An error occurred' });
+      });
+  }
+  
+});
+
 
 module.exports = router;

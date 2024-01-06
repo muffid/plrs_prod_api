@@ -43,12 +43,12 @@ router.get('/bahanCetak', (req, res) => {
 // Operasi UPDATE: Rute untuk Memperbarui data BAHAN CETAK berdasarkan id_bahan_cetak
 router.put('/editBahanCetak/:id', verifyToken, (req, res) => {
   const editBC = req.params.id;
-  const { id_bahan_cetak, nama_bahan_cetak, lebar_bahan } = req.body;
+  const {nama_bahan_cetak, lebar_bahan } = req.body;
 
   // Memperbarui data user di dalam database berdasarkan ID
   db('bahan_cetak')
     .where('id_bahan_cetak', editBC)
-    .update({ id_bahan_cetak, nama_bahan_cetak, lebar_bahan })
+    .update({ nama_bahan_cetak, lebar_bahan })
     .then((count) => {
       if (count > 0) {
         res.json({ message: 'User updated successfully' });
@@ -122,12 +122,12 @@ router.get('/laminasi', verifyToken, (req, res) => {
 // Operasi UPDATE: Rute untuk Memperbarui data LAMINASI berdasarkan id_laminasi
 router.put('/editLaminasi/:id', verifyToken, (req, res) => {
   const editL = req.params.id;
-  const { id_laminasi, nama_laminasi } = req.body;
+  const { nama_laminasi } = req.body;
 
   // Memperbarui data user di dalam database berdasarkan ID
   db('laminasi')
     .where('id_laminasi', editL)
-    .update({ id_laminasi, nama_laminasi })
+    .update({ nama_laminasi })
     .then((count) => {
       if (count > 0) {
         res.json({ message: 'User updated successfully' });
@@ -201,12 +201,12 @@ router.get('/mesinCetak', verifyToken, (req, res) => {
 // Operasi UPDATE: Rute untuk Memperbarui data MESIN CETAK berdasarkan id_mesin_cetak
 router.put('/editMesinCetak/:id', verifyToken, (req, res) => {
   const editMC = req.params.id;
-  const { id_mesin_cetak, nama_mesin_cetak } = req.body;
+  const {nama_mesin_cetak } = req.body;
 
   // Memperbarui data user di dalam database berdasarkan ID
   db('mesin_cetak')
     .where('id_mesin_cetak', editMC)
-    .update({ id_mesin_cetak, nama_mesin_cetak })
+    .update({nama_mesin_cetak })
     .then((count) => {
       if (count > 0) {
         res.json({ message: 'User updated successfully' });
@@ -280,12 +280,12 @@ router.get('/ekspedisi', verifyToken, (req, res) => {
 // Operasi UPDATE: Rute untuk Memperbarui data EKSPEDISI berdasarkan id_ekspedisi
 router.put('/editEkspedisi/:id', verifyToken, (req, res) => {
   const editE = req.params.id;
-  const { id_ekspedisi, nama_ekspedisi } = req.body;
+  const {  nama_ekspedisi } = req.body;
 
   // Memperbarui data user di dalam database berdasarkan ID
   db('ekspedisi')
     .where('id_ekspedisi', editE)
-    .update({ id_ekspedisi, nama_ekspedisi })
+    .update({nama_ekspedisi })
     .then((count) => {
       if (count > 0) {
         res.json({ message: 'User updated successfully' });
@@ -359,12 +359,12 @@ router.get('/akun_ecom', verifyToken, (req, res) => {
 // Operasi UPDATE: Rute untuk Memperbarui data EKSPEDISI berdasarkan id_ekspedisi
 router.put('/editAkunEcom/:id', verifyToken, (req, res) => {
   const editE = req.params.id;
-  const { id_akun_ecom, nama_akun_ecom } = req.body;
+  const {  nama_akun_ecom } = req.body;
 
   // Memperbarui data user di dalam database berdasarkan ID
   db('akun_ecom')
     .where('id_akun_ecom', editE)
-    .update({ id_akun_ecom, nama_akun_ecom })
+    .update({ nama_akun_ecom })
     .then((count) => {
       if (count > 0) {
         res.json({ message: 'User updated successfully' });
