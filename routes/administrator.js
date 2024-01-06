@@ -57,12 +57,12 @@ router.get('/akun',(req, res) => {
   // Operasi UPDATE: Memperbarui informasi akun berdasarkan ID
 router.put('/editAkun/:id', (req, res) => {
     const editAkun = req.params.id;
-    const { id_akun, nama_akun, username_akun,password_akun, status_akun,foto_akun } = req.body;
+    const { nama_akun, username_akun,password_akun, status_akun,foto_akun } = req.body;
   
     // Memperbarui data user di dalam database berdasarkan ID
     db('akun')
       .where('id_akun', editAkun)
-      .update({id_akun, nama_akun, username_akun,password_akun, status_akun,foto_akun })
+      .update({nama_akun, username_akun,password_akun, status_akun,foto_akun })
       .then((count) => {
         if (count > 0) {
           res.json({ message: 'User updated successfully' });

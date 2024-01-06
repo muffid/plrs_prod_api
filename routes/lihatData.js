@@ -63,12 +63,12 @@ router.get('/lihatData/:id', (req, res) => {
 // Operasi UPDATE: Memperbarui informasi user berdasarkan ID
 router.put('/edit/:id', (req, res) => {
   const userId = req.params.id;
-  const { id_admin, nama_admin, username_admin,password_admin, status_admin,foto_admin } = req.body;
+  const {  nama_admin, username_admin,password_admin, status_admin,foto_admin } = req.body;
 
   // Memperbarui data user di dalam database berdasarkan ID
   db('admin')
     .where('id_admin', userId)
-    .update({id_admin, nama_admin, username_admin,password_admin, status_admin,foto_admin })
+    .update({ nama_admin, username_admin,password_admin, status_admin,foto_admin })
     .then((count) => {
       if (count > 0) {
         res.json({ message: 'User updated successfully' });
