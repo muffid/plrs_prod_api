@@ -41,7 +41,7 @@ router.get('/bahanCetak', (req, res) => {
 });
 
 // Operasi UPDATE: Rute untuk Memperbarui data BAHAN CETAK berdasarkan id_bahan_cetak
-router.put('/editBahanCetak/:id', verifyToken, (req, res) => {
+router.put('/editBahanCetak/:id', (req, res) => {
   const editBC = req.params.id;
   const {nama_bahan_cetak, lebar_bahan } = req.body;
 
@@ -63,7 +63,7 @@ router.put('/editBahanCetak/:id', verifyToken, (req, res) => {
 });
 
 // Operasi DELETE: Rute untuk Menghapus BAHAN CETAK berdasarkan id_bahan_cetak
-router.delete('/deleteBahanCetak/:id', verifyToken, (req, res) => {
+router.delete('/deleteBahanCetak/:id', (req, res) => {
   const deleteBC = req.params.id;
 
   // Menghapus data user dari database berdasarkan ID
@@ -106,7 +106,7 @@ router.post('/newLaminasi', (req, res) => {
 });
 
 // Operasi READ: Rute untuk Mendapatkan semua data LAMINASI
-router.get('/laminasi', verifyToken, (req, res) => {
+router.get('/laminasi',  (req, res) => {
   // Mengambil data admin dari database
   db.select('*')
     .from('laminasi')
@@ -120,7 +120,7 @@ router.get('/laminasi', verifyToken, (req, res) => {
 });
 
 // Operasi UPDATE: Rute untuk Memperbarui data LAMINASI berdasarkan id_laminasi
-router.put('/editLaminasi/:id', verifyToken, (req, res) => {
+router.put('/editLaminasi/:id',  (req, res) => {
   const editL = req.params.id;
   const { nama_laminasi } = req.body;
 
@@ -142,7 +142,7 @@ router.put('/editLaminasi/:id', verifyToken, (req, res) => {
 });
 
 // Operasi DELETE: Rute untuk Menghapus LAMINASI berdasarkan id_laminasi
-router.delete('/deleteLaminasi/:id', verifyToken, (req, res) => {
+router.delete('/deleteLaminasi/:id',  (req, res) => {
   const deleteL = req.params.id;
 
   // Menghapus data user dari database berdasarkan ID
@@ -185,7 +185,7 @@ router.post('/newMesinCetak', (req, res) => {
 });
 
 // Operasi READ: Rute untuk Mendapatkan semua data MESIN CETAK
-router.get('/mesinCetak', verifyToken, (req, res) => {
+router.get('/mesinCetak', (req, res) => {
   // Mengambil data admin dari database
   db.select('*')
     .from('mesin_cetak')
@@ -199,7 +199,7 @@ router.get('/mesinCetak', verifyToken, (req, res) => {
 });
 
 // Operasi UPDATE: Rute untuk Memperbarui data MESIN CETAK berdasarkan id_mesin_cetak
-router.put('/editMesinCetak/:id', verifyToken, (req, res) => {
+router.put('/editMesinCetak/:id', (req, res) => {
   const editMC = req.params.id;
   const {nama_mesin_cetak } = req.body;
 
@@ -221,7 +221,7 @@ router.put('/editMesinCetak/:id', verifyToken, (req, res) => {
 });
 
 // Operasi DELETE: Rute untuk Menghapus MESIN CETAK berdasarkan id_mesin_cetak
-router.delete('/deleteMesinCetak/:id', verifyToken, (req, res) => {
+router.delete('/deleteMesinCetak/:id',  (req, res) => {
   const deleteMC = req.params.id;
 
   // Menghapus data user dari database berdasarkan ID
@@ -264,7 +264,7 @@ router.post('/newEkspedisi', (req, res) => {
 });
 
 // Operasi READ: Rute untuk Mendapatkan semua data EKSPEDISI
-router.get('/ekspedisi', verifyToken, (req, res) => {
+router.get('/ekspedisi',  (req, res) => {
   // Mengambil data admin dari database
   db.select('*')
     .from('ekspedisi')
@@ -278,7 +278,7 @@ router.get('/ekspedisi', verifyToken, (req, res) => {
 });
 
 // Operasi UPDATE: Rute untuk Memperbarui data EKSPEDISI berdasarkan id_ekspedisi
-router.put('/editEkspedisi/:id', verifyToken, (req, res) => {
+router.put('/editEkspedisi/:id', (req, res) => {
   const editE = req.params.id;
   const {  nama_ekspedisi } = req.body;
 
@@ -300,7 +300,7 @@ router.put('/editEkspedisi/:id', verifyToken, (req, res) => {
 });
 
 // Operasi DELETE: Rute untuk Menghapus EKSPEDISI berdasarkan id_ekspedisi
-router.delete('/deleteEkspedisi/:id', verifyToken, (req, res) => {
+router.delete('/deleteEkspedisi/:id', (req, res) => {
   const deleteE = req.params.id;
 
   // Menghapus data user dari database berdasarkan ID
@@ -343,7 +343,7 @@ router.post('/newAkunEcom', (req, res) => {
 });
 
 
-router.get('/akun_ecom', verifyToken, (req, res) => {
+router.get('/akun_ecom',  (req, res) => {
   // Mengambil data admin dari database
   db.select('*')
     .from('akun_ecom')
@@ -357,7 +357,7 @@ router.get('/akun_ecom', verifyToken, (req, res) => {
 });
 
 // Operasi UPDATE: Rute untuk Memperbarui data EKSPEDISI berdasarkan id_ekspedisi
-router.put('/editAkunEcom/:id', verifyToken, (req, res) => {
+router.put('/editAkunEcom/:id',  (req, res) => {
   const editE = req.params.id;
   const {  nama_akun_ecom } = req.body;
 
@@ -379,7 +379,7 @@ router.put('/editAkunEcom/:id', verifyToken, (req, res) => {
 });
 
 // Operasi DELETE: Rute untuk Menghapus EKSPEDISI berdasarkan id_ekspedisi
-router.delete('/deleteAkunEco/:id', verifyToken, (req, res) => {
+router.delete('/deleteAkunEco/:id',(req, res) => {
   const deleteE = req.params.id;
 
   // Menghapus data user dari database berdasarkan ID
