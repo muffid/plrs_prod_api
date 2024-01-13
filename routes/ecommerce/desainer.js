@@ -820,7 +820,7 @@ router.put('/recycle/:idEcom/:idAkun', async (req, res) => {
         // });
 
         const previousData = await db('data_order_ecom')
-    .select('id_bahan_cetak', 'id_mesin_cetak', 'id_laminasi', 'id_ekspedisi')
+    .select('*')
     .where('data_order_ecom.id_order_ecom', Eid_order_ecom)
     .first();
 
