@@ -853,6 +853,39 @@ await trx('data_order_ecom').insert({
     resi
 });
 
+const previousData2 = await db('setting_order')
+.select('*')
+.where('setting_order.id_order', Eid_order_ecom)
+.first();
+const { id_akun,time_start,time_finish } = previousData2;
+
+const genR1 = generateRandomString(10);
+            
+                await trx('setting_order').insert({
+                    id_setting: genR1,
+                    id_akun,
+                    id_order: Eid_order_ecom,
+                    status: "Setting Selesai",
+                    time_start,
+                    time_finish
+                });
+            
+                 await db('finish_order')
+                .select('*')
+                .where('finish_order.id_order', Eid_order_ecom)
+                .first();
+                
+
+                const genR2 = generateRandomString(10);
+            
+                await trx('finish_order').insert({
+                    id_finish: genR2,
+                    id_akun: "",
+                    id_order: Eid_order_ecom,
+                    status: "Belum Cetak",
+                    time: ""
+                });
+
         await trx.commit();
 
         res.status(200).json({ message: 'ok' });
