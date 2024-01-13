@@ -13,7 +13,8 @@ const getMonitorData = async (req, res) => {
     , 'mesin_cetak.nama_mesin_cetak', 'akun_ecom.nama_akun_ecom'
     , 'ekspedisi.nama_ekspedisi', 'laminasi.nama_laminasi', 'setting_order.status'
     ,'setting_order.time_start AS mulai_setting','setting_order.time_finish AS selesai_setting')
-    .from('data_order_ecom').where('setting_order.status','NOT LIKE','Tuntas')
+    .from('data_order_ecom')
+    .where('setting_order.status','NOT LIKE','Tuntas')
     .join('setting_order', 'data_order_ecom.id_order_ecom', '=', 'setting_order.id_order')
     .join('bahan_cetak', 'data_order_ecom.id_bahan_cetak', 'bahan_cetak.id_bahan_cetak')
     .join('mesin_cetak', 'data_order_ecom.id_mesin_cetak', 'mesin_cetak.id_mesin_cetak')

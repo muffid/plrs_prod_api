@@ -864,7 +864,7 @@ const genR1 = generateRandomString(10);
                 await trx('setting_order').insert({
                     id_setting: genR1,
                     id_akun,
-                    id_order: Eid_order_ecom,
+                    id_order:genR,
                     status: "Setting Selesai",
                     time_start,
                     time_finish
@@ -881,7 +881,7 @@ const genR1 = generateRandomString(10);
                 await trx('finish_order').insert({
                     id_finish: genR2,
                     id_akun: "",
-                    id_order: Eid_order_ecom,
+                    id_order:genR,
                     status: "Belum Cetak",
                     time: ""
                 });
