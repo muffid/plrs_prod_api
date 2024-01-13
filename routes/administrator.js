@@ -30,6 +30,7 @@ router.get('/akun',(req, res) => {
   // Mengambil data admin dari database
   db.select('*')
     .from('akun')
+    .where('status_akun','NOT LIKE','Administrator')
     .then((data) => {
       res.json(data);
     })

@@ -4,7 +4,7 @@ const db = require('../database/dbconfig');
 const { verifyToken } = require('../middleware/jwttoken')
 
 // GET all users
-router.get('/users', verifyToken,(req, res) => {
+router.get('/usersAll',(req, res) => {
   db.select()
     .from('akun')
     .then((users) => {
