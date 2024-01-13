@@ -824,7 +824,7 @@ router.put('/recycle/:idEcom/:idAkun', async (req, res) => {
     .where('data_order_ecom.id_order_ecom', Eid_order_ecom)
     .first();
 
-const {  id_bahan_cetak, id_mesin_cetak, id_laminasi, id_ekspedisi } = previousData;
+const {  id_bahan_cetak, id_mesin_cetak, id_laminasi, id_ekspedisi,sku,warna } = previousData;
 
 await trx('data_order_ecom').insert({
     id_order_ecom: genR,
