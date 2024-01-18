@@ -77,7 +77,69 @@ const getMonitorData = async (req, res) => {
 
 router.get('/monitor_order',getMonitorData)
 
+// 1. getAllOrderEcom where sudah tuntas by hari ini
 
+router.get('/orderTuntas', (req, res)=>{
+
+  const tglSaatIni = new Date();
+  const hari = String(tglSaatIni.getDate()).padStart(2, '0');
+  const bulan = String(tglSaatIni.getMonth() + 1).padStart(2, '0')
+  const tahun = tglSaatIni.getFullYear()
+
+  const fotmatTanggal = `${tahun}-${bulan}-${hari}`
+
+  // console.log(fotmatTanggal);
+  
+  db('finish_order')
+  .select('finish_order.*', 'data_order_ecom.*')
+  .join('data_order_ecom', 'finish_order.id_order','=','data_order_ecom.id_order_ecom')
+  .where('finish_order.status','=','Tuntas')
+  .andWhere('finish_order.time','LIKE', `${fotmatTanggal}` + '%')
+  .andWhere('data_order_ecom.return_order','=', '-')
+  // .orderBy('time', 'desc')
+  // .limit(500) 
+  .then((data)=>{
+    console.log(data)
+    res.json(data)
+  
+  }) .catch((error) => {
+    console.log(error);
+    res.status(500).json({ error: 'error' });
+});
+  
+})
+
+
+// 2. getAllOrderEcom where sudah tuntas by tanggal
+router.get('/orderAllTuntas', (req, res)=>{
+
+  // const tglSaatIni = new Date();
+  // const hari = String(tglSaatIni.getDate()).padStart(2, '0');
+  // const bulan = String(tglSaatIni.getMonth() + 1).padStart(2, '0')
+  // const tahun = tglSaatIni.getFullYear()
+
+  // const fotmatTanggal = `${tahun}-${bulan}-${hari}`
+  const { tanggal } = req.query;
+  // console.log(fotmatTanggal);
+  
+  db('finish_order')
+  .select('finish_order.*', 'data_order_ecom.*')
+  .join('data_order_ecom', 'finish_order.id_order','=','data_order_ecom.id_order_ecom')
+  .where('finish_order.status','=','Tuntas')
+  .andWhere('finish_order.time','LIKE', tanggal+'%')
+  .andWhere('data_order_ecom.return_order','=', '-')
+  // .orderBy('time', 'desc')
+  // .limit(500) 
+  .then((data)=>{
+    // console.log(data)
+    res.json(data)
+  
+  }) .catch((error) => {
+    console.log(error);
+    res.status(500).json({ error: 'error' });
+});
+  
+})
 
 // lebar bahan yang di gunakan
 router.get('/total_panjang_bahan', (req, res) => {
