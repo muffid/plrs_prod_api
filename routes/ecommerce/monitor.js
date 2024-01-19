@@ -106,7 +106,7 @@ router.get('/orderTuntas', (req, res)=>{
     };
     console.log(result);
     res.json(result);
-    
+
   }) .catch((error) => {
     console.log(error);
     res.status(500).json({ error: 'error' });
@@ -137,7 +137,11 @@ router.get('/orderAllTuntas', (req, res)=>{
   // .limit(500) 
   .then((data)=>{
     // console.log(data)
-    res.json(data)
+     const result = {
+      data: data,
+      jumlah: data.length,
+    };
+    res.json(result);
   
   }) .catch((error) => {
     console.log(error);
