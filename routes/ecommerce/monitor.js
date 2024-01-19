@@ -99,9 +99,14 @@ router.get('/orderTuntas', (req, res)=>{
   // .orderBy('time', 'desc')
   // .limit(500) 
   .then((data)=>{
-    console.log(data)
-    res.json(data)
-  
+    
+    const result = {
+      data: data,
+      jumlah: data.length,
+    };
+    console.log(result);
+    res.json(result);
+    
   }) .catch((error) => {
     console.log(error);
     res.status(500).json({ error: 'error' });
